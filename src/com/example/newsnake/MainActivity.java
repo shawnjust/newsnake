@@ -276,9 +276,9 @@ public class MainActivity extends SimpleBaseGameActivity {
 		scene.attachChild(head);
 		head.setZIndex(10000);
 
-		float foodCenterX = (float) (Math.random() * (CAMERA_WIDTH - 80) + 40 - this.mFood1TextureRegion
+		float foodCenterX = (float) (Math.random() * (CAMERA_WIDTH - 300) + 40 - this.mFood1TextureRegion
 				.getWidth() / 2);
-		float foodCenterY = (float) (Math.random() * (CAMERA_HEIGHT - 80) + 40 - this.mFood1TextureRegion
+		float foodCenterY = (float) (Math.random() * (CAMERA_HEIGHT - 300) + 40 - this.mFood1TextureRegion
 				.getHeight() / 2);
 		final Sprite food1 = new Sprite(foodCenterX, foodCenterY,
 				mFood1TextureRegion, this.getVertexBufferObjectManager());
@@ -342,12 +342,16 @@ public class MainActivity extends SimpleBaseGameActivity {
 						food = food2;
 					}
 
-					float foodCenterX = (float) (Math.random()
-							* (CAMERA_WIDTH - 80) + 40 - MainActivity.this.mFood1TextureRegion
-							.getWidth() / 2);
-					float foodCenterY = (float) (Math.random()
-							* (CAMERA_HEIGHT - 80) + 40 - MainActivity.this.mFood1TextureRegion
-							.getHeight() / 2);
+					float foodCenterX = 0;
+					float foodCenterY = 0;
+					do {
+						foodCenterX = (float) (Math.random()
+								* (CAMERA_WIDTH - 80) + 40 - MainActivity.this.mFood1TextureRegion
+								.getWidth() / 2);
+						foodCenterY = (float) (Math.random()
+								* (CAMERA_HEIGHT - 80) + 40 - MainActivity.this.mFood1TextureRegion
+								.getHeight() / 2);
+					} while (foodCenterX > 600 || foodCenterY > 240 );
 					food.setPosition(foodCenterX, foodCenterY);
 				}
 				boolean collision = false;
