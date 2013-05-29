@@ -395,17 +395,17 @@ public class MainActivity extends SimpleBaseGameActivity {
 					head.clearUpdateHandlers();
 					Iterator<Sprite> ite = physicsHandler.getBodyListIterator();
 					float timecount = 0.1f;
-					while (ite.hasNext()) {
-						Sprite body = ite.next();
-						timecount += 0.05f;
-						body.registerEntityModifier(new SequenceEntityModifier(
-								new DelayModifier(timecount),
-								new LoopEntityModifier(
-										new SequenceEntityModifier(
-												new AlphaModifier(0.2f, 1, 0),
-												new AlphaModifier(0.2f, 0, 1),
-												new DelayModifier(2f)))));
-					}
+//					while (ite.hasNext()) {
+//						Sprite body = ite.next();
+//						timecount += 0.05f;
+//						body.registerEntityModifier(new SequenceEntityModifier(
+//								new DelayModifier(timecount),
+//								new LoopEntityModifier(
+//										new SequenceEntityModifier(
+//												new AlphaModifier(0.2f, 1, 0),
+//												new AlphaModifier(0.2f, 0, 1),
+//												new DelayModifier(2f)))));
+//					}
 					endSceneBackGroundSprite.setAlpha(0);
 					endSceneBackGroundSprite
 							.registerEntityModifier(new SequenceEntityModifier(
