@@ -72,6 +72,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 	private TiledTextureRegion mPausebuttonTextureRegion;
 
 	private CameraScene mEndScene;
+	private CameraScene mPauseScene;
 
 	private MyIUpdateHandler mIUpdateHandler;
 
@@ -224,50 +225,51 @@ public class MainActivity extends SimpleBaseGameActivity {
 		/************************************ 华丽丽的分割线 ****************************************/
 
 		/************************************ 华丽丽的分割线 ****************************************/
-//		this.mEndScene = new CameraScene(camera);
-//		this.mEndScene.setBackgroundEnabled(false);
-//		final Sprite endSceneBackGroundSprite = new Sprite(0, 0,
-//				mEndBackground, this.getVertexBufferObjectManager());
-//		mEndScene.attachChild(endSceneBackGroundSprite);
-//
-//		/** gameover场景开始按钮 **/
-//		final MyButtonSprite endContinueButton = new MyButtonSprite(
-//				560 - mEndContinuebuttonTextureRegion.getWidth() / 2,
-//				360 - mEndContinuebuttonTextureRegion.getHeight() / 2,
-//				mEndContinuebuttonTextureRegion,
-//				this.getVertexBufferObjectManager());
-//		endContinueButton
-//				.setOnClickListener(new MyButtonSprite.OnClickListener() {
-//
-//					@Override
-//					public void onClick(MyButtonSprite pButtonSprite,
-//							float pTouchAreaLocalX, float pTouchAreaLocalY) {
-//						MainActivity.this.mEngine.setScene(MainActivity.this
-//								.onCreateScene());
-//					}
-//				});
-//		mEndScene.registerTouchArea(endContinueButton);
-//		mEndScene.attachChild(endContinueButton);
-//
-//		/** gameover场景帮助按钮按钮 **/
-//		final MyButtonSprite endHelpButton = new MyButtonSprite(
-//				370 - mEndHelpbuttonTextureRegion.getWidth() / 2,
-//				360 - mEndHelpbuttonTextureRegion.getHeight() / 2,
-//				mEndHelpbuttonTextureRegion,
-//				this.getVertexBufferObjectManager());
-//		mEndScene.registerTouchArea(endHelpButton);
-//		mEndScene.attachChild(endHelpButton);
-//
-//		/** gameover场景返回按钮按钮 **/
-//		final MyButtonSprite endBackButton = new MyButtonSprite(
-//				180 - mEndBackbuttonTextureRegion.getWidth() / 2,
-//				360 - mEndBackbuttonTextureRegion.getHeight() / 2,
-//				mEndBackbuttonTextureRegion,
-//				this.getVertexBufferObjectManager());
-//		mEndScene.registerTouchArea(endBackButton);
-//		mEndScene.attachChild(endBackButton);
-//
-//		mEndScene.setTouchAreaBindingOnActionDownEnabled(true);
+		
+		this.mPauseScene = new CameraScene(camera);
+		this.mPauseScene.setBackgroundEnabled(false);
+		final Sprite pauseSceneBackGroundSprite = new Sprite(0, 0,
+				mPauseBackground, this.getVertexBufferObjectManager());
+		mPauseScene.attachChild(pauseSceneBackGroundSprite);
+
+		/** gameover场景开始按钮 **/
+		final MyButtonSprite pauseContinueButton = new MyButtonSprite(
+				560 - mPauseContinueButtonTextureRegion.getWidth() / 2,
+				360 - mPauseContinueButtonTextureRegion.getHeight() / 2,
+				mPauseContinueButtonTextureRegion,
+				this.getVertexBufferObjectManager());
+		pauseContinueButton
+				.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+					@Override
+					public void onClick(MyButtonSprite pButtonSprite,
+							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						MainActivity.this.mEngine.setScene(MainActivity.this
+								.onCreateScene());
+					}
+				});
+		mPauseScene.registerTouchArea(pauseContinueButton);
+		mPauseScene.attachChild(pauseContinueButton);
+
+		/** gameover场景帮助按钮按钮 **/
+		final MyButtonSprite pauseNewgameButton = new MyButtonSprite(
+				370 - mPauseNewgameButtonTextureRegion.getWidth() / 2,
+				360 - mPauseNewgameButtonTextureRegion.getHeight() / 2,
+				mPauseNewgameButtonTextureRegion,
+				this.getVertexBufferObjectManager());
+		mPauseScene.registerTouchArea(pauseNewgameButton);
+		mPauseScene.attachChild(pauseNewgameButton);
+
+		/** gameover场景返回按钮按钮 **/
+		final MyButtonSprite pauseBackButton = new MyButtonSprite(
+				180 - mPauseBackbuttonTextureRegion.getWidth() / 2,
+				360 - mPauseBackbuttonTextureRegion.getHeight() / 2,
+				mPauseBackbuttonTextureRegion,
+				this.getVertexBufferObjectManager());
+		mPauseScene.registerTouchArea(pauseBackButton);
+		mPauseScene.attachChild(pauseBackButton);
+
+		mPauseScene.setTouchAreaBindingOnActionDownEnabled(true);
 		/************************************ 华丽丽的分割线 ****************************************/
 
 		MyButtonSprite pauseButton = new MyButtonSprite(20, CAMERA_HEIGHT
