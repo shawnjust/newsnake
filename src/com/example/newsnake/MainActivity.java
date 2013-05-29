@@ -189,16 +189,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 				360 - mEndContinuebuttonTextureRegion.getHeight() / 2,
 				mEndContinuebuttonTextureRegion,
 				this.getVertexBufferObjectManager());
-		endContinueButton
-				.setOnClickListener(new MyButtonSprite.OnClickListener() {
 
-					@Override
-					public void onClick(MyButtonSprite pButtonSprite,
-							float pTouchAreaLocalX, float pTouchAreaLocalY) {
-						MainActivity.this.mEngine.setScene(MainActivity.this
-								.onCreateScene());
-					}
-				});
 		mEndScene.registerTouchArea(endContinueButton);
 		mEndScene.attachChild(endContinueButton);
 
@@ -217,6 +208,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 				360 - mEndBackbuttonTextureRegion.getHeight() / 2,
 				mEndBackbuttonTextureRegion,
 				this.getVertexBufferObjectManager());
+		
 		mEndScene.registerTouchArea(endBackButton);
 		mEndScene.attachChild(endBackButton);
 
@@ -225,7 +217,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 		/************************************ 华丽丽的分割线 ****************************************/
 
 		/************************************ 华丽丽的分割线 ****************************************/
-		
+
 		this.mPauseScene = new CameraScene(camera);
 		this.mPauseScene.setBackgroundEnabled(false);
 		final Sprite pauseSceneBackGroundSprite = new Sprite(0, 0,
@@ -238,16 +230,6 @@ public class MainActivity extends SimpleBaseGameActivity {
 				360 - mPauseContinueButtonTextureRegion.getHeight() / 2,
 				mPauseContinueButtonTextureRegion,
 				this.getVertexBufferObjectManager());
-		pauseContinueButton
-				.setOnClickListener(new MyButtonSprite.OnClickListener() {
-
-					@Override
-					public void onClick(MyButtonSprite pButtonSprite,
-							float pTouchAreaLocalX, float pTouchAreaLocalY) {
-						MainActivity.this.mEngine.setScene(MainActivity.this
-								.onCreateScene());
-					}
-				});
 		mPauseScene.registerTouchArea(pauseContinueButton);
 		mPauseScene.attachChild(pauseContinueButton);
 
@@ -257,6 +239,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 				360 - mPauseNewgameButtonTextureRegion.getHeight() / 2,
 				mPauseNewgameButtonTextureRegion,
 				this.getVertexBufferObjectManager());
+
 		mPauseScene.registerTouchArea(pauseNewgameButton);
 		mPauseScene.attachChild(pauseNewgameButton);
 
@@ -266,6 +249,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 				360 - mPauseBackbuttonTextureRegion.getHeight() / 2,
 				mPauseBackbuttonTextureRegion,
 				this.getVertexBufferObjectManager());
+
 		mPauseScene.registerTouchArea(pauseBackButton);
 		mPauseScene.attachChild(pauseBackButton);
 
@@ -395,17 +379,17 @@ public class MainActivity extends SimpleBaseGameActivity {
 					head.clearUpdateHandlers();
 					Iterator<Sprite> ite = physicsHandler.getBodyListIterator();
 					float timecount = 0.1f;
-//					while (ite.hasNext()) {
-//						Sprite body = ite.next();
-//						timecount += 0.05f;
-//						body.registerEntityModifier(new SequenceEntityModifier(
-//								new DelayModifier(timecount),
-//								new LoopEntityModifier(
-//										new SequenceEntityModifier(
-//												new AlphaModifier(0.2f, 1, 0),
-//												new AlphaModifier(0.2f, 0, 1),
-//												new DelayModifier(2f)))));
-//					}
+					while (ite.hasNext()) {
+						Sprite body = ite.next();
+						timecount += 0.05f;
+						body.registerEntityModifier(new SequenceEntityModifier(
+								new DelayModifier(timecount),
+								new LoopEntityModifier(
+										new SequenceEntityModifier(
+												new AlphaModifier(0.2f, 1, 0),
+												new AlphaModifier(0.2f, 0, 1),
+												new DelayModifier(2f)))));
+					}
 					endSceneBackGroundSprite.setAlpha(0);
 					endSceneBackGroundSprite
 							.registerEntityModifier(new SequenceEntityModifier(
@@ -498,16 +482,78 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 		scene.setChildScene(analogOnScreenControl);
 
+		endContinueButton
+				.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+					@Override
+					public void onClick(MyButtonSprite pButtonSprite,
+							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						MainActivity.this.mEngine.setScene(MainActivity.this
+								.onCreateScene());
+					}
+				});
+		
+		endBackButton.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+			@Override
+			public void onClick(MyButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				MainActivity.this.finish();
+			}
+		});
+		
+		endHelpButton.setOnClickListener(new MyButtonSprite.OnClickListener() {
+			
+			@Override
+			public void onClick(MyButtonSprite pButtonSprite, float pTouchAreaLocalX,
+					float pTouchAreaLocalY) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
+		pauseNewgameButton
+				.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+					@Override
+					public void onClick(MyButtonSprite pButtonSprite,
+							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						MainActivity.this.mEngine.setScene(MainActivity.this
+								.onCreateScene());
+					}
+				});
+
+		pauseBackButton
+				.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+					@Override
+					public void onClick(MyButtonSprite pButtonSprite,
+							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						MainActivity.this.finish();
+					}
+				});
+
+		pauseContinueButton
+				.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+					@Override
+					public void onClick(MyButtonSprite pButtonSprite,
+							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						scene.clearChildScene();
+						physicsHandler.enable();
+						scene.setChildScene(analogOnScreenControl);
+					}
+				});
+
 		pauseButton.setOnClickListener(new MyButtonSprite.OnClickListener() {
 
 			@Override
 			public void onClick(MyButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				if (physicsHandler.isable())
-
+				if (physicsHandler.isable()) {
 					physicsHandler.disable();
-//				else
-//					physicsHandler.enable();
+					scene.setChildScene(mPauseScene);
+				}
 			}
 		});
 
