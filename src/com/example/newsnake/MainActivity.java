@@ -506,8 +506,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 				if (physicsHandler.isable())
 
 					physicsHandler.disable();
-				else
-					physicsHandler.enable();
+//				else
+//					physicsHandler.enable();
 			}
 		});
 
