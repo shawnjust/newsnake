@@ -42,16 +42,16 @@
         <activity
             android:name="com.example.newsnake.StartpageActivity"
             android:label="@string/title_activity_startpage" >
-
-        </activity>
-        <activity
-            android:name="com.example.newsnake.InformationPageActivity"
-            android:label="@string/title_activity_information_page" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.newsnake.InformationPageActivity"
+            android:label="@string/title_activity_information_page" >
+
         </activity>
     </application>
 

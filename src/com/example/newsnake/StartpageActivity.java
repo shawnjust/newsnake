@@ -7,6 +7,7 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.RepeatingSpriteBackground;
 import org.andengine.entity.sprite.ButtonSprite;
+import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.texture.TextureOptions;
@@ -16,6 +17,8 @@ import org.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasS
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
+import android.R.integer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -83,9 +86,34 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 		
 		Sprite startSprite=new Sprite(0, 0, mStartpage, getVertexBufferObjectManager());
 		Sprite snakeSprite=new Sprite(75, 0, mSnake, getVertexBufferObjectManager());
-		ButtonSprite TopSprite=new ButtonSprite(300, 300, mTop, getVertexBufferObjectManager());
+
 		ButtonSprite StartSprite=new ButtonSprite(300, 100, mStart, getVertexBufferObjectManager());
+		ButtonSprite TopSprite=new ButtonSprite(300, 300, mTop, getVertexBufferObjectManager());
 		ButtonSprite InformationSprite=new ButtonSprite(285, 210, mInformation, getVertexBufferObjectManager());
+		
+		StartSprite.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent();
+				intent.setClass(StartpageActivity.this, MainActivity.class);
+				startActivity(intent);
+				StartpageActivity.this.finish();
+			}
+		});
+		TopSprite.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent();
+				intent.setClass(StartpageActivity.this, InformationPageActivity.class);
+				startActivity(intent);
+				StartpageActivity.this.finish();
+			}
+		});
+		scene.registerTouchArea(StartSprite);
+		scene.registerTouchArea(TopSprite);
 		
 		scene.attachChild(startSprite);
 		scene.attachChild(snakeSprite);

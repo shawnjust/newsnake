@@ -40,7 +40,6 @@ import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.opengl.GLES20;
 
 import com.example.entity.sprite.MyButtonSprite;

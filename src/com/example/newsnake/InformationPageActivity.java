@@ -1,12 +1,18 @@
 package com.example.newsnake;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.RepeatingSpriteBackground;
+import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.font.Font;
@@ -19,14 +25,17 @@ import org.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasS
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 
 public class InformationPageActivity extends SimpleBaseGameActivity {
 	private RepeatingSpriteBackground mBackground;
 	
 	private BitmapTextureAtlas mTextureAtlas;
+	private BitmapTextureAtlas mButtonAtlas;
 	
 	private TiledTextureRegion mTop;
+	private TiledTextureRegion mButton;
 	
 	private Font mFont;
 	
@@ -48,11 +57,13 @@ public class InformationPageActivity extends SimpleBaseGameActivity {
 		this.mBackground=new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, getTextureManager(), AssetBitmapTextureAtlasSource.create(getAssets(), "image/beginbackground.png"), getVertexBufferObjectManager());
 		
 		mTextureAtlas=new BitmapTextureAtlas(getTextureManager(), 800, 480, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		mButtonAtlas=new BitmapTextureAtlas(getTextureManager(), CAMERA_WIDTH, CAMERA_HEIGHT,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		
 		mTop=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mTextureAtlas, this, "image/topgrade.png", 0,0,1,1);		
-
+		mButton=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mButtonAtlas, this, "image/back.png", 0, 0,1,1);
 		
 		mTextureAtlas.load();
-		
+		mButtonAtlas.load();
 		
 		
 		FontFactory.setAssetBasePath("font/");
@@ -71,15 +82,44 @@ public class InformationPageActivity extends SimpleBaseGameActivity {
 		scene.setBackground(mBackground);
 		
 		
-		final Text endGrade = new Text(0, 0, this.mFont, "","XXXXXX".length(), this.getVertexBufferObjectManager());
-		float endGradeX = 400 - endGrade.getWidth() / 2;
-		float endGradeY = 175 - endGrade.getHeight() / 2;
+		int highestGrade = 0;
+		BufferedInputStream Bufferedinput;
+		try {
+			Bufferedinput = new BufferedInputStream(
+					openFileInput("Grade.data"));
+			DataInputStream Datainput = new DataInputStream(
+					Bufferedinput);
+			highestGrade = Datainput.readInt();
+			Datainput.close();
+		} catch (IOException e) {
+		}
+
+		
+		final Text endGrade = new Text(0, 0, this.mFont, "","adsfdsfads".length(), this.getVertexBufferObjectManager());
+		float endGradeX = 250 - endGrade.getWidth() / 2;
+		float endGradeY = 220 - endGrade.getHeight() / 2;
 		endGrade.setPosition(endGradeX, endGradeY);
-		scene.attachChild(endGrade);
+		endGrade.setText("adsfdsafds");
 
 		Sprite topSprite=new Sprite(0, 0, mTop, getVertexBufferObjectManager());
 		
+		ButtonSprite BackSprite=new ButtonSprite(0, 380, mButton, getVertexBufferObjectManager());
+		BackSprite.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent();
+				intent.setClass(InformationPageActivity.this, StartpageActivity.class);
+				startActivity(intent);
+				InformationPageActivity.this.finish();
+			}
+		});
+		scene.registerTouchArea(BackSprite);
+		
+		
 		scene.attachChild(topSprite);
+		scene.attachChild(endGrade);
+		scene.attachChild(BackSprite);
 		// TODO Auto-generated method stub
 		return scene;
 	}
