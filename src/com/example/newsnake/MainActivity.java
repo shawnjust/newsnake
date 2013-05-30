@@ -1,5 +1,10 @@
 package com.example.newsnake;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 
 import org.andengine.engine.camera.Camera;
@@ -25,6 +30,7 @@ import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -33,6 +39,7 @@ import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.opengl.GLES20;
 
@@ -169,9 +176,9 @@ public class MainActivity extends SimpleBaseGameActivity {
 						"pauseButton.png", 0, 720, 3, 1);
 		this.mButtonBitmapTextureAtlas.load();
 
-		this.mFont = FontFactory.create(this.getFontManager(),
-				this.getTextureManager(), 256, 256, TextureOptions.BILINEAR,
-				Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48);
+		FontFactory.setAssetBasePath("font/");
+		final ITexture droidFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		this.mFont = FontFactory.createFromAsset(this.getFontManager(), droidFontTexture, this.getAssets(), "Droid.ttf", 48, true, Color.BLACK);
 		this.mFont.load();
 	}
 
@@ -194,14 +201,20 @@ public class MainActivity extends SimpleBaseGameActivity {
 				mEndBackground, this.getVertexBufferObjectManager());
 		mEndScene.attachChild(endSceneBackGroundSprite);
 
-		final Text endGrade = new Text(250, 240, this.mFont, "",
+		final Text endGrade = new Text(0, 0, this.mFont, "",
 				"XXXXXX".length(), this.getVertexBufferObjectManager());
-		final Text endHightestGrade = new Text(250, 240, this.mFont, "",
+		final Text endHighestGrade = new Text(0, 0, this.mFont, "",
 				"XXXXXX".length(), this.getVertexBufferObjectManager());
 		float endGradeX = 400 - endGrade.getWidth() / 2;
 		float endGradeY = 175 - endGrade.getHeight() / 2;
 		endGrade.setPosition(endGradeX, endGradeY);
+
+		float endHighestGradeX = 400 - endHighestGrade.getWidth() / 2;
+		float endHighestGradeY = 265 - endHighestGrade.getHeight() / 2;
+		endHighestGrade.setPosition(endHighestGradeX, endHighestGradeY);
+
 		mEndScene.attachChild(endGrade);
+		mEndScene.attachChild(endHighestGrade);
 
 		/** gameover场景开始按钮 **/
 		final MyButtonSprite endContinueButton = new MyButtonSprite(
@@ -450,16 +463,54 @@ public class MainActivity extends SimpleBaseGameActivity {
 											new AlphaModifier(0.5f, 0, 1),
 											new MoveModifier(0.5f, X, X,
 													Y + 20, Y))));
-					endGrade.setText("" + (physicsHandler.getBodyCount() - 1)
-							* 10);
+					int grade = (physicsHandler.getBodyCount() - 1) * 10;
+					endGrade.setText("" + grade);
 					endGrade.setAlpha(0);
 					X = endGrade.getX();
 					Y = endGrade.getY();
 					endGrade.registerEntityModifier(new SequenceEntityModifier(
-							new DelayModifier(1.4f),
+							new DelayModifier(1.6f),
 							new ParallelEntityModifier(new AlphaModifier(0.5f,
 									0, 1), new MoveModifier(0.5f, X, X, Y + 20,
 									Y))));
+
+					int highestGrade = 0;
+					BufferedInputStream Bufferedinput;
+					try {
+						Bufferedinput = new BufferedInputStream(
+								openFileInput("Grade.data"));
+						DataInputStream Datainput = new DataInputStream(
+								Bufferedinput);
+						highestGrade = Datainput.readInt();
+						Datainput.close();
+					} catch (IOException e) {
+					}
+
+					if (highestGrade < grade) {
+						highestGrade = grade;
+						try {
+							BufferedOutputStream Bufoutput = new BufferedOutputStream(
+									openFileOutput("Grade.data",
+											MODE_PRIVATE));
+							DataOutputStream output = new DataOutputStream(
+									Bufoutput);
+							output.writeInt(highestGrade);
+							output.close();
+						} catch (IOException e) {
+						}
+					}
+
+					endHighestGrade.setText("" + highestGrade);
+					endHighestGrade.setAlpha(0);
+					X = endHighestGrade.getX();
+					Y = endHighestGrade.getY();
+					endHighestGrade
+							.registerEntityModifier(new SequenceEntityModifier(
+									new DelayModifier(1.8f),
+									new ParallelEntityModifier(
+											new AlphaModifier(0.5f, 0, 1),
+											new MoveModifier(0.5f, X, X,
+													Y + 20, Y))));
 					scene.setChildScene(mEndScene);
 
 					// MainActivity.this.mEngine.setScene(MainActivity.this.onCreateScene());
