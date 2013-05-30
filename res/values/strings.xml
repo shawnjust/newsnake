@@ -4,5 +4,7 @@
     <string name="app_name">NewSnake</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_startpage">StartpageActivity</string>
+    <string name="title_activity_information_page">InformationPageActivity</string>
 
 </resources>
