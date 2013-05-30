@@ -10,6 +10,7 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.RepeatingSpriteBackground;
+import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
@@ -22,6 +23,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
@@ -29,12 +31,11 @@ import android.content.Intent;
 import android.graphics.Color;
 
 public class InformationPageActivity extends SimpleBaseGameActivity {
-	private RepeatingSpriteBackground mBackground;
+	private TextureRegion mBackground;
 	
 	private BitmapTextureAtlas mTextureAtlas;
 	private BitmapTextureAtlas mButtonAtlas;
 	
-	private TiledTextureRegion mTop;
 	private TiledTextureRegion mButton;
 	
 	private Font mFont;
@@ -54,12 +55,11 @@ public class InformationPageActivity extends SimpleBaseGameActivity {
 
 	@Override
 	protected void onCreateResources() {
-		this.mBackground=new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, getTextureManager(), AssetBitmapTextureAtlasSource.create(getAssets(), "image/beginbackground.png"), getVertexBufferObjectManager());
 		
-		mTextureAtlas=new BitmapTextureAtlas(getTextureManager(), 800, 480, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		mButtonAtlas=new BitmapTextureAtlas(getTextureManager(), CAMERA_WIDTH, CAMERA_HEIGHT,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		mTextureAtlas=new BitmapTextureAtlas(getTextureManager(), 1024, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		mButtonAtlas=new BitmapTextureAtlas(getTextureManager(), 128, 128,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		
-		mTop=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mTextureAtlas, this, "image/topgrade.png", 0,0,1,1);		
+		mBackground=BitmapTextureAtlasTextureRegionFactory.createFromAsset(mTextureAtlas, this, "image/topgrade.png",0,0);	
 		mButton=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mButtonAtlas, this, "image/back.png", 0, 0,1,1);
 		
 		mTextureAtlas.load();
@@ -79,8 +79,8 @@ public class InformationPageActivity extends SimpleBaseGameActivity {
 	protected Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 		scene=new Scene();
-		scene.setBackground(mBackground);
-		
+		final SpriteBackground mainSceneBackground = new SpriteBackground(new Sprite(0, 0, mBackground,this.getVertexBufferObjectManager()));
+		scene.setBackground(mainSceneBackground);
 		
 		int highestGrade = 0;
 		BufferedInputStream Bufferedinput;
@@ -101,23 +101,18 @@ public class InformationPageActivity extends SimpleBaseGameActivity {
 		endGrade.setPosition(endGradeX, endGradeY);
 		endGrade.setText("adsfdsafds");
 
-		Sprite topSprite=new Sprite(0, 0, mTop, getVertexBufferObjectManager());
 		
 		ButtonSprite BackSprite=new ButtonSprite(0, 380, mButton, getVertexBufferObjectManager());
 		BackSprite.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent();
-				intent.setClass(InformationPageActivity.this, StartpageActivity.class);
-				startActivity(intent);
 				InformationPageActivity.this.finish();
 			}
 		});
 		scene.registerTouchArea(BackSprite);
 		
-		
-		scene.attachChild(topSprite);
+
 		scene.attachChild(endGrade);
 		scene.attachChild(BackSprite);
 		// TODO Auto-generated method stub

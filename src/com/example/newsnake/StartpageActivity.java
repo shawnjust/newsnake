@@ -6,6 +6,7 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.RepeatingSpriteBackground;
+import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
@@ -14,6 +15,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
@@ -23,14 +25,13 @@ import android.os.Bundle;
 import android.view.Menu;
 
 public class StartpageActivity extends SimpleBaseGameActivity {
-	private RepeatingSpriteBackground mBackground;
 	
 	
 	private BitmapTextureAtlas mTextureAtlas;
 	private BitmapTextureAtlas mStartAtlas;
-	private BitmapTextureAtlas mTopAtlas;
-	private BitmapTextureAtlas mInformationAtlas;
-	private BitmapTextureAtlas mSnakeAtlas;
+
+	
+	private TextureRegion mGrassBackground;
 	
 	private TiledTextureRegion mTop;
 	private TiledTextureRegion mStartpage;
@@ -38,7 +39,6 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 	private TiledTextureRegion mInformation;
 	private TiledTextureRegion mSnake;
 	
-	private Scene scene;
 	
 	
 	private static final int CAMERA_WIDTH = 800;
@@ -53,27 +53,21 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 
 	@Override
 	protected void onCreateResources() {
-		this.mBackground=new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, getTextureManager(), AssetBitmapTextureAtlasSource.create(getAssets(), "image/beginbackground.png"), getVertexBufferObjectManager());
 		
+		mTextureAtlas=new BitmapTextureAtlas(this.getTextureManager(), 1024, 512);
+		mStartAtlas=new BitmapTextureAtlas(getTextureManager(), 1024, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
 		
-		mTextureAtlas=new BitmapTextureAtlas(getTextureManager(), 800, 480, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		mStartAtlas=new BitmapTextureAtlas(getTextureManager(), 800, 480, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		mTopAtlas=new BitmapTextureAtlas(getTextureManager(), 800, 480, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		mInformationAtlas=new BitmapTextureAtlas(getTextureManager(), 800, 480, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		mSnakeAtlas=new BitmapTextureAtlas(getTextureManager(), 800, 480, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		
-		mStartpage=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mTextureAtlas, this, "image/startpage.png", 0, 0,1,1);
-		mTop=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mTopAtlas, this, "image/toplist.png", 0,0,3,1);		
-		mStart=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mStartAtlas, this, "image/begin.png", 0,0,3,1);
-		mInformation=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mInformationAtlas, this, "image/information.png", 0,0,3,1);
-		mSnake=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mSnakeAtlas, this, "image/snake.png", 0,0,1,1);
+		mGrassBackground = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mTextureAtlas, this,"image/beginbackground.png", 0, 0);
+		mTop=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mStartAtlas, this, "image/toplist.png", 0,0,3,1);		
+		mStart=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mStartAtlas, this, "image/begin.png", 0,116,3,1);
+		mInformation=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mStartAtlas, this, "image/information.png", 0,248,3,1);
+		mSnake=BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mStartAtlas, this, "image/snake.png", 0,359,1,1);
 		
 		
 		mTextureAtlas.load();
 		mStartAtlas.load();
-		mTopAtlas.load();
-		mInformationAtlas.load();
-		mSnakeAtlas.load();
+
 		// TODO Auto-generated method stub
 		
 	}
@@ -81,10 +75,10 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 	@Override
 	protected Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
-		scene=new Scene();
-		scene.setBackground(mBackground);
+		final Scene scene=new Scene();
+		final SpriteBackground mainSceneBackground = new SpriteBackground(new Sprite(0, 0, mGrassBackground,this.getVertexBufferObjectManager()));
+		scene.setBackground(mainSceneBackground);
 		
-		Sprite startSprite=new Sprite(0, 0, mStartpage, getVertexBufferObjectManager());
 		Sprite snakeSprite=new Sprite(75, 0, mSnake, getVertexBufferObjectManager());
 
 		ButtonSprite StartSprite=new ButtonSprite(300, 100, mStart, getVertexBufferObjectManager());
@@ -98,7 +92,6 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 				Intent intent=new Intent();
 				intent.setClass(StartpageActivity.this, MainActivity.class);
 				startActivity(intent);
-				StartpageActivity.this.finish();
 			}
 		});
 		TopSprite.setOnClickListener(new OnClickListener() {
@@ -109,13 +102,11 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 				Intent intent=new Intent();
 				intent.setClass(StartpageActivity.this, InformationPageActivity.class);
 				startActivity(intent);
-				StartpageActivity.this.finish();
 			}
 		});
 		scene.registerTouchArea(StartSprite);
 		scene.registerTouchArea(TopSprite);
 		
-		scene.attachChild(startSprite);
 		scene.attachChild(snakeSprite);
 		scene.attachChild(TopSprite);
 		scene.attachChild(StartSprite);
