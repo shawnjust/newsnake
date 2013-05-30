@@ -98,7 +98,7 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 				Intent intent=new Intent();
 				intent.setClass(StartpageActivity.this, MainActivity.class);
 				startActivity(intent);
-				StartpageActivity.this.finish();
+//				StartpageActivity.this.finish();
 			}
 		});
 		TopSprite.setOnClickListener(new OnClickListener() {
@@ -109,7 +109,7 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 				Intent intent=new Intent();
 				intent.setClass(StartpageActivity.this, InformationPageActivity.class);
 				startActivity(intent);
-				StartpageActivity.this.finish();
+//				StartpageActivity.this.finish();
 			}
 		});
 		scene.registerTouchArea(StartSprite);

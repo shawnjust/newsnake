@@ -108,9 +108,9 @@ public class InformationPageActivity extends SimpleBaseGameActivity {
 			
 			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent();
-				intent.setClass(InformationPageActivity.this, StartpageActivity.class);
-				startActivity(intent);
+//				Intent intent=new Intent();
+//				intent.setClass(InformationPageActivity.this, StartpageActivity.class);
+//				startActivity(intent);
 				InformationPageActivity.this.finish();
 			}
 		});
