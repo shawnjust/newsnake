@@ -21,7 +21,10 @@ import org.andengine.entity.scene.CameraScene;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -30,6 +33,7 @@ import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
+import android.graphics.Typeface;
 import android.opengl.GLES20;
 
 import com.example.entity.sprite.MyButtonSprite;
@@ -75,6 +79,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 	private CameraScene mPauseScene;
 
 	private MyIUpdateHandler mIUpdateHandler;
+
+	private Font mFont;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -162,6 +168,11 @@ public class MainActivity extends SimpleBaseGameActivity {
 				.createTiledFromAsset(this.mButtonBitmapTextureAtlas, this,
 						"pauseButton.png", 0, 720, 3, 1);
 		this.mButtonBitmapTextureAtlas.load();
+
+		this.mFont = FontFactory.create(this.getFontManager(),
+				this.getTextureManager(), 256, 256, TextureOptions.BILINEAR,
+				Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48);
+		this.mFont.load();
 	}
 
 	@Override
@@ -182,6 +193,15 @@ public class MainActivity extends SimpleBaseGameActivity {
 		final Sprite endSceneBackGroundSprite = new Sprite(0, 0,
 				mEndBackground, this.getVertexBufferObjectManager());
 		mEndScene.attachChild(endSceneBackGroundSprite);
+
+		final Text endGrade = new Text(250, 240, this.mFont, "",
+				"XXXXXX".length(), this.getVertexBufferObjectManager());
+		final Text endHightestGrade = new Text(250, 240, this.mFont, "",
+				"XXXXXX".length(), this.getVertexBufferObjectManager());
+		float endGradeX = 400 - endGrade.getWidth() / 2;
+		float endGradeY = 175 - endGrade.getHeight() / 2;
+		endGrade.setPosition(endGradeX, endGradeY);
+		mEndScene.attachChild(endGrade);
 
 		/** gameover场景开始按钮 **/
 		final MyButtonSprite endContinueButton = new MyButtonSprite(
@@ -208,7 +228,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 				360 - mEndBackbuttonTextureRegion.getHeight() / 2,
 				mEndBackbuttonTextureRegion,
 				this.getVertexBufferObjectManager());
-		
+
 		mEndScene.registerTouchArea(endBackButton);
 		mEndScene.attachChild(endBackButton);
 
@@ -335,7 +355,6 @@ public class MainActivity extends SimpleBaseGameActivity {
 					scene.sortChildren();
 					physicsHandler.addBody(body);
 					food.setPosition(CAMERA_WIDTH + 100, CAMERA_HEIGHT + 100);
-
 					if (Math.random() > 0.5) {
 						food = food1;
 					} else {
@@ -351,7 +370,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 						foodCenterY = (float) (Math.random()
 								* (CAMERA_HEIGHT - 80) + 40 - MainActivity.this.mFood1TextureRegion
 								.getHeight() / 2);
-					} while (foodCenterX > 600 || foodCenterY > 240 );
+					} while (foodCenterX > 600 && foodCenterY > 220);
 					food.setPosition(foodCenterX, foodCenterY);
 				}
 				boolean collision = false;
@@ -431,6 +450,16 @@ public class MainActivity extends SimpleBaseGameActivity {
 											new AlphaModifier(0.5f, 0, 1),
 											new MoveModifier(0.5f, X, X,
 													Y + 20, Y))));
+					endGrade.setText("" + (physicsHandler.getBodyCount() - 1)
+							* 10);
+					endGrade.setAlpha(0);
+					X = endGrade.getX();
+					Y = endGrade.getY();
+					endGrade.registerEntityModifier(new SequenceEntityModifier(
+							new DelayModifier(1.4f),
+							new ParallelEntityModifier(new AlphaModifier(0.5f,
+									0, 1), new MoveModifier(0.5f, X, X, Y + 20,
+									Y))));
 					scene.setChildScene(mEndScene);
 
 					// MainActivity.this.mEngine.setScene(MainActivity.this.onCreateScene());
@@ -496,7 +525,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 								.onCreateScene());
 					}
 				});
-		
+
 		endBackButton.setOnClickListener(new MyButtonSprite.OnClickListener() {
 
 			@Override
@@ -505,14 +534,14 @@ public class MainActivity extends SimpleBaseGameActivity {
 				MainActivity.this.finish();
 			}
 		});
-		
+
 		endHelpButton.setOnClickListener(new MyButtonSprite.OnClickListener() {
-			
+
 			@Override
-			public void onClick(MyButtonSprite pButtonSprite, float pTouchAreaLocalX,
-					float pTouchAreaLocalY) {
+			public void onClick(MyButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 
