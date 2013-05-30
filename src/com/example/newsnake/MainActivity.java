@@ -597,7 +597,6 @@ public class MainActivity extends SimpleBaseGameActivity {
 			@Override
 			public void onClick(MyButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				// TODO Auto-generated method stub
 
 			}
 		});
