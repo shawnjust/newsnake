@@ -176,8 +176,11 @@ public class MainActivity extends SimpleBaseGameActivity {
 		this.mButtonBitmapTextureAtlas.load();
 
 		FontFactory.setAssetBasePath("font/");
-		final ITexture droidFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-		this.mFont = FontFactory.createFromAsset(this.getFontManager(), droidFontTexture, this.getAssets(), "Droid.ttf", 48, true, Color.BLACK);
+		final ITexture droidFontTexture = new BitmapTextureAtlas(
+				this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		this.mFont = FontFactory.createFromAsset(this.getFontManager(),
+				droidFontTexture, this.getAssets(), "Droid.ttf", 48, true,
+				Color.WHITE);
 		this.mFont.load();
 	}
 
@@ -200,8 +203,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 				mEndBackground, this.getVertexBufferObjectManager());
 		mEndScene.attachChild(endSceneBackGroundSprite);
 
-		final Text endGrade = new Text(0, 0, this.mFont, "",
-				"XXXXXX".length(), this.getVertexBufferObjectManager());
+		final Text endGrade = new Text(0, 0, this.mFont, "", "XXXXXX".length(),
+				this.getVertexBufferObjectManager());
 		final Text endHighestGrade = new Text(0, 0, this.mFont, "",
 				"XXXXXX".length(), this.getVertexBufferObjectManager());
 		float endGradeX = 400 - endGrade.getWidth() / 2;
@@ -256,19 +259,19 @@ public class MainActivity extends SimpleBaseGameActivity {
 				mPauseBackground, this.getVertexBufferObjectManager());
 		mPauseScene.attachChild(pauseSceneBackGroundSprite);
 
-		/** gameover场景开始按钮 **/
+		/** gameover场景恢复按钮 **/
 		final MyButtonSprite pauseContinueButton = new MyButtonSprite(
-				560 - mPauseContinueButtonTextureRegion.getWidth() / 2,
-				360 - mPauseContinueButtonTextureRegion.getHeight() / 2,
+				100 - mPauseContinueButtonTextureRegion.getWidth() / 2,
+				120 - mPauseContinueButtonTextureRegion.getHeight() / 2,
 				mPauseContinueButtonTextureRegion,
 				this.getVertexBufferObjectManager());
 		mPauseScene.registerTouchArea(pauseContinueButton);
 		mPauseScene.attachChild(pauseContinueButton);
 
-		/** gameover场景帮助按钮按钮 **/
+		/** gameover场景新游戏按钮 **/
 		final MyButtonSprite pauseNewgameButton = new MyButtonSprite(
-				370 - mPauseNewgameButtonTextureRegion.getWidth() / 2,
-				360 - mPauseNewgameButtonTextureRegion.getHeight() / 2,
+				100 - mPauseNewgameButtonTextureRegion.getWidth() / 2,
+				240 - mPauseNewgameButtonTextureRegion.getHeight() / 2,
 				mPauseNewgameButtonTextureRegion,
 				this.getVertexBufferObjectManager());
 
@@ -277,7 +280,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 		/** gameover场景返回按钮按钮 **/
 		final MyButtonSprite pauseBackButton = new MyButtonSprite(
-				180 - mPauseBackbuttonTextureRegion.getWidth() / 2,
+				100 - mPauseBackbuttonTextureRegion.getWidth() / 2,
 				360 - mPauseBackbuttonTextureRegion.getHeight() / 2,
 				mPauseBackbuttonTextureRegion,
 				this.getVertexBufferObjectManager());
@@ -375,6 +378,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 					float foodCenterX = 0;
 					float foodCenterY = 0;
+					boolean collision = false;
 					do {
 						foodCenterX = (float) (Math.random()
 								* (CAMERA_WIDTH - 80) + 40 - MainActivity.this.mFood1TextureRegion
@@ -382,7 +386,11 @@ public class MainActivity extends SimpleBaseGameActivity {
 						foodCenterY = (float) (Math.random()
 								* (CAMERA_HEIGHT - 80) + 40 - MainActivity.this.mFood1TextureRegion
 								.getHeight() / 2);
-					} while (foodCenterX > 600 && foodCenterY > 220);
+						collision = ((foodCenterX - headPosX)
+								* (foodCenterX - headPosX) + (foodCenterY - headPosY)
+								* (foodCenterY - headPosY) < 40 * 40);
+					} while ((foodCenterX > 580 && foodCenterY > 220)
+							|| collision);
 					food.setPosition(foodCenterX, foodCenterY);
 				}
 				boolean collision = false;
@@ -489,8 +497,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 						highestGrade = grade;
 						try {
 							BufferedOutputStream Bufoutput = new BufferedOutputStream(
-									openFileOutput("Grade.data",
-											MODE_PRIVATE));
+									openFileOutput("Grade.data", MODE_PRIVATE));
 							DataOutputStream output = new DataOutputStream(
 									Bufoutput);
 							output.writeInt(highestGrade);
