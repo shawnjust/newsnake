@@ -78,6 +78,7 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 		final Scene scene=new Scene();
 		final SpriteBackground mainSceneBackground = new SpriteBackground(new Sprite(0, 0, mGrassBackground,this.getVertexBufferObjectManager()));
 		scene.setBackground(mainSceneBackground);
+		scene.setTouchAreaBindingOnActionDownEnabled(true);
 		
 		Sprite snakeSprite=new Sprite(75, 0, mSnake, getVertexBufferObjectManager());
 
@@ -106,6 +107,7 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 		});
 		scene.registerTouchArea(StartSprite);
 		scene.registerTouchArea(TopSprite);
+		scene.registerTouchArea(InformationSprite);
 		
 		scene.attachChild(snakeSprite);
 		scene.attachChild(TopSprite);
