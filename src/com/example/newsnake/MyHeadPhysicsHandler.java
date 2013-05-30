@@ -26,13 +26,17 @@ public class MyHeadPhysicsHandler extends BaseEntityUpdateHandler {
 	protected List<PositionInformation> bodyPositionList;
 	protected List<Sprite> bodyList;
 
+	public int getBodyCount() {
+		return bodyList.size();
+	}
+
 	public Iterator<Sprite> getBodyListIterator() {
-		if (bodyList != null) 
+		if (bodyList != null)
 			return bodyList.iterator();
-		 else
+		else
 			return null;
 	}
-	
+
 	public boolean isable() {
 		return able;
 	}

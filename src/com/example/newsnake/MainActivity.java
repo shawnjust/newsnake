@@ -1,5 +1,10 @@
 package com.example.newsnake;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 
 import org.andengine.engine.camera.Camera;
@@ -21,7 +26,11 @@ import org.andengine.entity.scene.CameraScene;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -30,6 +39,8 @@ import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.opengl.GLES20;
 
 import com.example.entity.sprite.MyButtonSprite;
@@ -75,6 +86,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 	private CameraScene mPauseScene;
 
 	private MyIUpdateHandler mIUpdateHandler;
+
+	private Font mFont;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -162,6 +175,11 @@ public class MainActivity extends SimpleBaseGameActivity {
 				.createTiledFromAsset(this.mButtonBitmapTextureAtlas, this,
 						"pauseButton.png", 0, 720, 3, 1);
 		this.mButtonBitmapTextureAtlas.load();
+
+		FontFactory.setAssetBasePath("font/");
+		final ITexture droidFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		this.mFont = FontFactory.createFromAsset(this.getFontManager(), droidFontTexture, this.getAssets(), "Droid.ttf", 48, true, Color.BLACK);
+		this.mFont.load();
 	}
 
 	@Override
@@ -183,22 +201,28 @@ public class MainActivity extends SimpleBaseGameActivity {
 				mEndBackground, this.getVertexBufferObjectManager());
 		mEndScene.attachChild(endSceneBackGroundSprite);
 
+		final Text endGrade = new Text(0, 0, this.mFont, "",
+				"XXXXXX".length(), this.getVertexBufferObjectManager());
+		final Text endHighestGrade = new Text(0, 0, this.mFont, "",
+				"XXXXXX".length(), this.getVertexBufferObjectManager());
+		float endGradeX = 400 - endGrade.getWidth() / 2;
+		float endGradeY = 175 - endGrade.getHeight() / 2;
+		endGrade.setPosition(endGradeX, endGradeY);
+
+		float endHighestGradeX = 400 - endHighestGrade.getWidth() / 2;
+		float endHighestGradeY = 265 - endHighestGrade.getHeight() / 2;
+		endHighestGrade.setPosition(endHighestGradeX, endHighestGradeY);
+
+		mEndScene.attachChild(endGrade);
+		mEndScene.attachChild(endHighestGrade);
+
 		/** gameover场景开始按钮 **/
 		final MyButtonSprite endContinueButton = new MyButtonSprite(
 				560 - mEndContinuebuttonTextureRegion.getWidth() / 2,
 				360 - mEndContinuebuttonTextureRegion.getHeight() / 2,
 				mEndContinuebuttonTextureRegion,
 				this.getVertexBufferObjectManager());
-		endContinueButton
-				.setOnClickListener(new MyButtonSprite.OnClickListener() {
 
-					@Override
-					public void onClick(MyButtonSprite pButtonSprite,
-							float pTouchAreaLocalX, float pTouchAreaLocalY) {
-						MainActivity.this.mEngine.setScene(MainActivity.this
-								.onCreateScene());
-					}
-				});
 		mEndScene.registerTouchArea(endContinueButton);
 		mEndScene.attachChild(endContinueButton);
 
@@ -217,6 +241,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 				360 - mEndBackbuttonTextureRegion.getHeight() / 2,
 				mEndBackbuttonTextureRegion,
 				this.getVertexBufferObjectManager());
+
 		mEndScene.registerTouchArea(endBackButton);
 		mEndScene.attachChild(endBackButton);
 
@@ -225,7 +250,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 		/************************************ 华丽丽的分割线 ****************************************/
 
 		/************************************ 华丽丽的分割线 ****************************************/
-		
+
 		this.mPauseScene = new CameraScene(camera);
 		this.mPauseScene.setBackgroundEnabled(false);
 		final Sprite pauseSceneBackGroundSprite = new Sprite(0, 0,
@@ -238,16 +263,6 @@ public class MainActivity extends SimpleBaseGameActivity {
 				360 - mPauseContinueButtonTextureRegion.getHeight() / 2,
 				mPauseContinueButtonTextureRegion,
 				this.getVertexBufferObjectManager());
-		pauseContinueButton
-				.setOnClickListener(new MyButtonSprite.OnClickListener() {
-
-					@Override
-					public void onClick(MyButtonSprite pButtonSprite,
-							float pTouchAreaLocalX, float pTouchAreaLocalY) {
-						MainActivity.this.mEngine.setScene(MainActivity.this
-								.onCreateScene());
-					}
-				});
 		mPauseScene.registerTouchArea(pauseContinueButton);
 		mPauseScene.attachChild(pauseContinueButton);
 
@@ -257,6 +272,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 				360 - mPauseNewgameButtonTextureRegion.getHeight() / 2,
 				mPauseNewgameButtonTextureRegion,
 				this.getVertexBufferObjectManager());
+
 		mPauseScene.registerTouchArea(pauseNewgameButton);
 		mPauseScene.attachChild(pauseNewgameButton);
 
@@ -266,6 +282,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 				360 - mPauseBackbuttonTextureRegion.getHeight() / 2,
 				mPauseBackbuttonTextureRegion,
 				this.getVertexBufferObjectManager());
+
 		mPauseScene.registerTouchArea(pauseBackButton);
 		mPauseScene.attachChild(pauseBackButton);
 
@@ -292,9 +309,9 @@ public class MainActivity extends SimpleBaseGameActivity {
 		scene.attachChild(head);
 		head.setZIndex(10000);
 
-		float foodCenterX = (float) (Math.random() * (CAMERA_WIDTH - 80) + 40 - this.mFood1TextureRegion
+		float foodCenterX = (float) (Math.random() * (CAMERA_WIDTH - 300) + 40 - this.mFood1TextureRegion
 				.getWidth() / 2);
-		float foodCenterY = (float) (Math.random() * (CAMERA_HEIGHT - 80) + 40 - this.mFood1TextureRegion
+		float foodCenterY = (float) (Math.random() * (CAMERA_HEIGHT - 300) + 40 - this.mFood1TextureRegion
 				.getHeight() / 2);
 		final Sprite food1 = new Sprite(foodCenterX, foodCenterY,
 				mFood1TextureRegion, this.getVertexBufferObjectManager());
@@ -351,19 +368,22 @@ public class MainActivity extends SimpleBaseGameActivity {
 					scene.sortChildren();
 					physicsHandler.addBody(body);
 					food.setPosition(CAMERA_WIDTH + 100, CAMERA_HEIGHT + 100);
-
 					if (Math.random() > 0.5) {
 						food = food1;
 					} else {
 						food = food2;
 					}
 
-					float foodCenterX = (float) (Math.random()
-							* (CAMERA_WIDTH - 80) + 40 - MainActivity.this.mFood1TextureRegion
-							.getWidth() / 2);
-					float foodCenterY = (float) (Math.random()
-							* (CAMERA_HEIGHT - 80) + 40 - MainActivity.this.mFood1TextureRegion
-							.getHeight() / 2);
+					float foodCenterX = 0;
+					float foodCenterY = 0;
+					do {
+						foodCenterX = (float) (Math.random()
+								* (CAMERA_WIDTH - 80) + 40 - MainActivity.this.mFood1TextureRegion
+								.getWidth() / 2);
+						foodCenterY = (float) (Math.random()
+								* (CAMERA_HEIGHT - 80) + 40 - MainActivity.this.mFood1TextureRegion
+								.getHeight() / 2);
+					} while (foodCenterX > 600 && foodCenterY > 220);
 					food.setPosition(foodCenterX, foodCenterY);
 				}
 				boolean collision = false;
@@ -395,17 +415,17 @@ public class MainActivity extends SimpleBaseGameActivity {
 					head.clearUpdateHandlers();
 					Iterator<Sprite> ite = physicsHandler.getBodyListIterator();
 					float timecount = 0.1f;
-//					while (ite.hasNext()) {
-//						Sprite body = ite.next();
-//						timecount += 0.05f;
-//						body.registerEntityModifier(new SequenceEntityModifier(
-//								new DelayModifier(timecount),
-//								new LoopEntityModifier(
-//										new SequenceEntityModifier(
-//												new AlphaModifier(0.2f, 1, 0),
-//												new AlphaModifier(0.2f, 0, 1),
-//												new DelayModifier(2f)))));
-//					}
+					while (ite.hasNext()) {
+						Sprite body = ite.next();
+						timecount += 0.05f;
+						body.registerEntityModifier(new SequenceEntityModifier(
+								new DelayModifier(timecount),
+								new LoopEntityModifier(
+										new SequenceEntityModifier(
+												new AlphaModifier(0.2f, 1, 0),
+												new AlphaModifier(0.2f, 0, 1),
+												new DelayModifier(2f)))));
+					}
 					endSceneBackGroundSprite.setAlpha(0);
 					endSceneBackGroundSprite
 							.registerEntityModifier(new SequenceEntityModifier(
@@ -439,6 +459,54 @@ public class MainActivity extends SimpleBaseGameActivity {
 					endContinueButton
 							.registerEntityModifier(new SequenceEntityModifier(
 									new DelayModifier(1.4f),
+									new ParallelEntityModifier(
+											new AlphaModifier(0.5f, 0, 1),
+											new MoveModifier(0.5f, X, X,
+													Y + 20, Y))));
+					int grade = (physicsHandler.getBodyCount() - 1) * 10;
+					endGrade.setText("" + grade);
+					endGrade.setAlpha(0);
+					X = endGrade.getX();
+					Y = endGrade.getY();
+					endGrade.registerEntityModifier(new SequenceEntityModifier(
+							new DelayModifier(1.6f),
+							new ParallelEntityModifier(new AlphaModifier(0.5f,
+									0, 1), new MoveModifier(0.5f, X, X, Y + 20,
+									Y))));
+
+					int highestGrade = 0;
+					BufferedInputStream Bufferedinput;
+					try {
+						Bufferedinput = new BufferedInputStream(
+								openFileInput("Grade.data"));
+						DataInputStream Datainput = new DataInputStream(
+								Bufferedinput);
+						highestGrade = Datainput.readInt();
+						Datainput.close();
+					} catch (IOException e) {
+					}
+
+					if (highestGrade < grade) {
+						highestGrade = grade;
+						try {
+							BufferedOutputStream Bufoutput = new BufferedOutputStream(
+									openFileOutput("Grade.data",
+											MODE_PRIVATE));
+							DataOutputStream output = new DataOutputStream(
+									Bufoutput);
+							output.writeInt(highestGrade);
+							output.close();
+						} catch (IOException e) {
+						}
+					}
+
+					endHighestGrade.setText("" + highestGrade);
+					endHighestGrade.setAlpha(0);
+					X = endHighestGrade.getX();
+					Y = endHighestGrade.getY();
+					endHighestGrade
+							.registerEntityModifier(new SequenceEntityModifier(
+									new DelayModifier(1.8f),
 									new ParallelEntityModifier(
 											new AlphaModifier(0.5f, 0, 1),
 											new MoveModifier(0.5f, X, X,
@@ -498,16 +566,78 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 		scene.setChildScene(analogOnScreenControl);
 
+		endContinueButton
+				.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+					@Override
+					public void onClick(MyButtonSprite pButtonSprite,
+							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						MainActivity.this.mEngine.setScene(MainActivity.this
+								.onCreateScene());
+					}
+				});
+
+		endBackButton.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+			@Override
+			public void onClick(MyButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				MainActivity.this.finish();
+			}
+		});
+
+		endHelpButton.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+			@Override
+			public void onClick(MyButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		pauseNewgameButton
+				.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+					@Override
+					public void onClick(MyButtonSprite pButtonSprite,
+							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						MainActivity.this.mEngine.setScene(MainActivity.this
+								.onCreateScene());
+					}
+				});
+
+		pauseBackButton
+				.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+					@Override
+					public void onClick(MyButtonSprite pButtonSprite,
+							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						MainActivity.this.finish();
+					}
+				});
+
+		pauseContinueButton
+				.setOnClickListener(new MyButtonSprite.OnClickListener() {
+
+					@Override
+					public void onClick(MyButtonSprite pButtonSprite,
+							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						scene.clearChildScene();
+						physicsHandler.enable();
+						scene.setChildScene(analogOnScreenControl);
+					}
+				});
+
 		pauseButton.setOnClickListener(new MyButtonSprite.OnClickListener() {
 
 			@Override
 			public void onClick(MyButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				if (physicsHandler.isable())
-
+				if (physicsHandler.isable()) {
 					physicsHandler.disable();
-				else
-					physicsHandler.enable();
+					scene.setChildScene(mPauseScene);
+				}
 			}
 		});
 
