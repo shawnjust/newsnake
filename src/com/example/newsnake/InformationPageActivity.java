@@ -107,6 +107,7 @@ public class InformationPageActivity extends SimpleBaseGameActivity {
 			
 			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
 				// TODO Auto-generated method stub
+
 				InformationPageActivity.this.finish();
 			}
 		});
