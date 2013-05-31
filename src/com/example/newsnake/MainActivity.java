@@ -70,6 +70,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 	private BitmapTextureAtlas mFoodBitmapTextureAtlas;
 	private TiledTextureRegion mFood1TextureRegion;
 	private TiledTextureRegion mFood2TextureRegion;
+	private TiledTextureRegion mFood3TextureRegion;
+	private TiledTextureRegion mFood4TextureRegion;
 
 	private BitmapTextureAtlas mButtonBitmapTextureAtlas;
 	private TiledTextureRegion mEndBackbuttonTextureRegion;
@@ -142,13 +144,19 @@ public class MainActivity extends SimpleBaseGameActivity {
 		this.mOnScreenControlTexture.load();
 
 		this.mFoodBitmapTextureAtlas = new BitmapTextureAtlas(
-				this.getTextureManager(), 64, 128, TextureOptions.BILINEAR);
+				this.getTextureManager(), 64, 256, TextureOptions.BILINEAR);
 		this.mFood1TextureRegion = BitmapTextureAtlasTextureRegionFactory
 				.createTiledFromAsset(this.mFoodBitmapTextureAtlas, this,
 						"food1_new.png", 0, 0, 1, 1);
 		this.mFood2TextureRegion = BitmapTextureAtlasTextureRegionFactory
 				.createTiledFromAsset(this.mFoodBitmapTextureAtlas, this,
 						"food2_new.png", 0, 60, 1, 1);
+		this.mFood3TextureRegion = BitmapTextureAtlasTextureRegionFactory
+				.createTiledFromAsset(this.mFoodBitmapTextureAtlas, this,
+						"food3_new.png", 0, 120, 1, 1);
+		this.mFood4TextureRegion = BitmapTextureAtlasTextureRegionFactory
+				.createTiledFromAsset(this.mFoodBitmapTextureAtlas, this,
+						"food4_new.png", 0, 180, 1, 1);
 		this.mFoodBitmapTextureAtlas.load();
 
 		this.mButtonBitmapTextureAtlas = new BitmapTextureAtlas(
@@ -292,7 +300,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 		mPauseScene.setTouchAreaBindingOnActionDownEnabled(true);
 		/************************************ 华丽丽的分割线 ****************************************/
 
-		MyButtonSprite pauseButton = new MyButtonSprite(20, CAMERA_HEIGHT
+		final MyButtonSprite pauseButton = new MyButtonSprite(20, CAMERA_HEIGHT
 				- mPausebuttonTextureRegion.getHeight() - 20,
 				mPausebuttonTextureRegion, this.getVertexBufferObjectManager());
 		scene.attachChild(pauseButton);
@@ -321,8 +329,16 @@ public class MainActivity extends SimpleBaseGameActivity {
 		final Sprite food2 = new Sprite(CAMERA_WIDTH + 100,
 				CAMERA_HEIGHT + 100, mFood2TextureRegion,
 				this.getVertexBufferObjectManager());
+		final Sprite food3 = new Sprite(CAMERA_WIDTH + 100,
+				CAMERA_HEIGHT + 100, mFood3TextureRegion,
+				this.getVertexBufferObjectManager());
+		final Sprite food4 = new Sprite(CAMERA_WIDTH + 100,
+				CAMERA_HEIGHT + 100, mFood4TextureRegion,
+				this.getVertexBufferObjectManager());
 		scene.attachChild(food1);
 		scene.attachChild(food2);
+		scene.attachChild(food3);
+		scene.attachChild(food4);
 
 		final float bodyCenterX = (CAMERA_WIDTH / 4 - this.mBodyTextureRegion
 				.getWidth() / 2);
@@ -371,12 +387,18 @@ public class MainActivity extends SimpleBaseGameActivity {
 					scene.sortChildren();
 					physicsHandler.addBody(body);
 					food.setPosition(CAMERA_WIDTH + 100, CAMERA_HEIGHT + 100);
-					if (Math.random() > 0.5) {
+					float num = (float) (Math.random() * 4);
+					if (num < 1) {
 						food = food1;
-					} else {
+					} else if (num < 2) {
 						food = food2;
+					} else if (num < 3) {
+						food = food3;
+					} else {
+						food = food4;
 					}
 
+					food.setRotation((float) (Math.random() * 60 - 30));
 					float foodCenterX = 0;
 					float foodCenterY = 0;
 					boolean collision = false;
@@ -388,7 +410,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 								* (CAMERA_HEIGHT - 80) + 40 - MainActivity.this.mFood1TextureRegion
 								.getHeight() / 2);
 						collision = ((foodCenterX - headPosX)
-								* (foodCenterX - headPosX) + (foodCenterY - headPosY)
+								* (foodCenterX - headPosX)
+								+ (foodCenterY - headPosY)
 								* (foodCenterY - headPosY) < 40 * 40);
 					} while ((foodCenterX > 580 && foodCenterY > 220)
 							|| collision);
@@ -634,6 +657,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 						scene.clearChildScene();
 						physicsHandler.enable();
 						scene.setChildScene(analogOnScreenControl);
+						pauseButton.setAlpha(1f);
 					}
 				});
 
@@ -645,6 +669,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 				if (physicsHandler.isable()) {
 					physicsHandler.disable();
 					scene.setChildScene(mPauseScene);
+					pauseButton.setAlpha(0f);
 				}
 			}
 		});
