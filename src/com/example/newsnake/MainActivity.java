@@ -291,7 +291,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 		mPauseScene.setTouchAreaBindingOnActionDownEnabled(true);
 		/************************************ 华丽丽的分割线 ****************************************/
 
-		MyButtonSprite pauseButton = new MyButtonSprite(20, CAMERA_HEIGHT
+		final MyButtonSprite pauseButton = new MyButtonSprite(20, CAMERA_HEIGHT
 				- mPausebuttonTextureRegion.getHeight() - 20,
 				mPausebuttonTextureRegion, this.getVertexBufferObjectManager());
 		scene.attachChild(pauseButton);
@@ -631,6 +631,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 						scene.clearChildScene();
 						physicsHandler.enable();
 						scene.setChildScene(analogOnScreenControl);
+						pauseButton.setAlpha(1f);
 					}
 				});
 
@@ -642,6 +643,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 				if (physicsHandler.isable()) {
 					physicsHandler.disable();
 					scene.setChildScene(mPauseScene);
+					pauseButton.setAlpha(0f);
 				}
 			}
 		});
