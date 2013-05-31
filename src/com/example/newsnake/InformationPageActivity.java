@@ -29,9 +29,7 @@ public class InformationPageActivity extends SimpleBaseGameActivity {
 	private TextureRegion mBackground;
 
 	private BitmapTextureAtlas mTextureAtlas;
-	private BitmapTextureAtlas mButtonAtlas;
 
-	private TiledTextureRegion mButton;
 
 	private Font mFont;
 
@@ -55,16 +53,14 @@ public class InformationPageActivity extends SimpleBaseGameActivity {
 
 		mTextureAtlas = new BitmapTextureAtlas(getTextureManager(), 1024, 512,
 				TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		mButtonAtlas = new BitmapTextureAtlas(getTextureManager(), 128, 128,
-				TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
 
 		mBackground = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
 				mTextureAtlas, this, "image/topgrade.png", 0, 0);
-		mButton = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(
-				mButtonAtlas, this, "image/back.png", 0, 0, 1, 1);
+
 
 		mTextureAtlas.load();
-		mButtonAtlas.load();
+
 
 		FontFactory.setAssetBasePath("font/");
 		final ITexture droidFontTexture = new BitmapTextureAtlas(
@@ -106,20 +102,7 @@ public class InformationPageActivity extends SimpleBaseGameActivity {
 		endGrade.setText("" + highestGrade);
 		scene.attachChild(endGrade);
 
-		// ButtonSprite BackSprite = new ButtonSprite(0, 380, mButton,
-		// getVertexBufferObjectManager());
-		// BackSprite.setOnClickListener(new OnClickListener() {
-		//
-		// public void onClick(ButtonSprite arg0, float arg1, float arg2) {
-		// // TODO Auto-generated method stub
-		//
-		// InformationPageActivity.this.finish();
-		// }
-		// });
-		// scene.registerTouchArea(BackSprite);
-		//
 
-		// scene.attachChild(BackSprite);
 		// TODO Auto-generated method stub
 		return scene;
 	}

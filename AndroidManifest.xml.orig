@@ -46,14 +46,17 @@
         </activity>
         <activity
             android:name="com.example.newsnake.InformationPageActivity"
-            android:label="@string/app_name" 
-            android:configChanges="orientation|screenSize">
+<<<<<<< HEAD
+            android:label="@string/app_name" >
         </activity>
-            
         <activity
             android:name="com.example.newsnake.InforPageActivity"
-            android:label="@string/title_activity_infor_page" 
+            android:label="@string/title_activity_infor_page" >
+=======
+            android:label="@string/app_name" 
             android:configChanges="orientation|screenSize">
+
+>>>>>>> 3fc4a7573e0b44c48c9bd034ab3e40e98f3ff68d
         </activity>
     </application>
 
