@@ -261,7 +261,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 		/** gameover场景恢复按钮 **/
 		final MyButtonSprite pauseContinueButton = new MyButtonSprite(
-				100 - mPauseContinueButtonTextureRegion.getWidth() / 2,
+				90 - mPauseContinueButtonTextureRegion.getWidth() / 2,
 				120 - mPauseContinueButtonTextureRegion.getHeight() / 2,
 				mPauseContinueButtonTextureRegion,
 				this.getVertexBufferObjectManager());
@@ -270,7 +270,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 		/** gameover场景新游戏按钮 **/
 		final MyButtonSprite pauseNewgameButton = new MyButtonSprite(
-				100 - mPauseNewgameButtonTextureRegion.getWidth() / 2,
+				90 - mPauseNewgameButtonTextureRegion.getWidth() / 2,
 				240 - mPauseNewgameButtonTextureRegion.getHeight() / 2,
 				mPauseNewgameButtonTextureRegion,
 				this.getVertexBufferObjectManager());
@@ -280,7 +280,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 		/** gameover场景返回按钮按钮 **/
 		final MyButtonSprite pauseBackButton = new MyButtonSprite(
-				100 - mPauseBackbuttonTextureRegion.getWidth() / 2,
+				90 - mPauseBackbuttonTextureRegion.getWidth() / 2,
 				360 - mPauseBackbuttonTextureRegion.getHeight() / 2,
 				mPauseBackbuttonTextureRegion,
 				this.getVertexBufferObjectManager());
