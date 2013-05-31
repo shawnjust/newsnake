@@ -39,6 +39,7 @@ import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.opengl.GLES20;
 
@@ -597,7 +598,9 @@ public class MainActivity extends SimpleBaseGameActivity {
 			@Override
 			public void onClick(MyButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-
+				Intent intent=new Intent();
+				intent.setClass(MainActivity.this, InforPageActivity.class);
+				startActivity(intent);
 			}
 		});
 

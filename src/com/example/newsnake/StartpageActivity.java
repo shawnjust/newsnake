@@ -105,6 +105,16 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 				startActivity(intent);
 			}
 		});
+		InformationSprite.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent();
+				intent.setClass(StartpageActivity.this, InforPageActivity.class);
+				startActivity(intent);
+			}
+		});
 		scene.registerTouchArea(StartSprite);
 		scene.registerTouchArea(TopSprite);
 		scene.registerTouchArea(InformationSprite);
