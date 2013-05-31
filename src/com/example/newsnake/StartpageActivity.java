@@ -82,9 +82,9 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 		
 		Sprite snakeSprite=new Sprite(75, 0, mSnake, getVertexBufferObjectManager());
 
-		ButtonSprite StartSprite=new ButtonSprite(300, 100, mStart, getVertexBufferObjectManager());
-		ButtonSprite TopSprite=new ButtonSprite(300, 300, mTop, getVertexBufferObjectManager());
-		ButtonSprite InformationSprite=new ButtonSprite(285, 210, mInformation, getVertexBufferObjectManager());
+		ButtonSprite StartSprite=new ButtonSprite(300, 110, mStart, getVertexBufferObjectManager());
+		ButtonSprite TopSprite=new ButtonSprite(280, 313, mTop, getVertexBufferObjectManager());
+		ButtonSprite InformationSprite=new ButtonSprite(300, 220, mInformation, getVertexBufferObjectManager());
 		
 		StartSprite.setOnClickListener(new OnClickListener() {
 			
