@@ -1,4 +1,4 @@
-package com.example.newsnake;
+package com.lujielinyiwei.newsnake;
 
 import java.util.ArrayList;
 

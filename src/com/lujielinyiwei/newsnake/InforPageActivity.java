@@ -1,4 +1,4 @@
-package com.example.newsnake;
+package com.lujielinyiwei.newsnake;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;

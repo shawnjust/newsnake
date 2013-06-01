@@ -1,4 +1,4 @@
-package com.example.entity.sprite;
+package com.lujielinyiwei.entity.sprite;
 
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.TiledSprite;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.newsnake"
+    package="com.lujielinyiwei.newsnake"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -30,12 +30,12 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         <activity
-            android:name="com.example.newsnake.MainActivity"
+            android:name="com.lujielinyiwei.newsnake.MainActivity"
             android:label="@string/app_name" 
             android:configChanges="orientation|screenSize">
         </activity>
         <activity
-            android:name="com.example.newsnake.StartpageActivity"
+            android:name="com.lujielinyiwei.newsnake.StartpageActivity"
             android:label="@string/app_name" 
             android:configChanges="orientation|screenSize">
             <intent-filter>
@@ -45,13 +45,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.newsnake.InformationPageActivity"
+            android:name="com.lujielinyiwei.newsnake.InformationPageActivity"
             android:label="@string/app_name" 
             android:configChanges="orientation|screenSize">
         </activity>
             
         <activity
-            android:name="com.example.newsnake.InforPageActivity"
+            android:name="com.lujielinyiwei.newsnake.InforPageActivity"
             android:label="@string/title_activity_infor_page" 
             android:configChanges="orientation|screenSize">
         </activity>

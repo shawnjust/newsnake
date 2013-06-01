@@ -1,4 +1,4 @@
-package com.example.newsnake;
+package com.lujielinyiwei.newsnake;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -43,7 +43,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.opengl.GLES20;
 
-import com.example.entity.sprite.MyButtonSprite;
+import com.lujielinyiwei.entity.sprite.MyButtonSprite;
 
 public class MainActivity extends SimpleBaseGameActivity {
 

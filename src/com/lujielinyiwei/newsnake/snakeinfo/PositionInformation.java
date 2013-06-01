@@ -1,4 +1,4 @@
-package com.example.newsnake.snakeinfo;
+package com.lujielinyiwei.newsnake.snakeinfo;
 
 public class PositionInformation {
 	float positionX = 0;

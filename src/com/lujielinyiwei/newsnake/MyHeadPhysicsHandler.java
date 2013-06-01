@@ -1,4 +1,4 @@
-package com.example.newsnake;
+package com.lujielinyiwei.newsnake;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -8,7 +8,7 @@ import org.andengine.engine.handler.BaseEntityUpdateHandler;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.sprite.Sprite;
 
-import com.example.newsnake.snakeinfo.PositionInformation;
+import com.lujielinyiwei.newsnake.snakeinfo.PositionInformation;
 
 public class MyHeadPhysicsHandler extends BaseEntityUpdateHandler {
 
