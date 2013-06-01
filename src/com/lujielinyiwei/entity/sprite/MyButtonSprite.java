@@ -1,9 +1,6 @@
 package com.lujielinyiwei.entity.sprite;
 
-import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.TiledSprite;
-import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
-import org.andengine.entity.sprite.ButtonSprite.State;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
