@@ -7,6 +7,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.andengine.audio.music.Music;
+import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
@@ -38,6 +40,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.debug.Debug;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -86,6 +89,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 	private CameraScene mEndScene;
 	private CameraScene mPauseScene;
+	
+	private Music mMusic;
 
 	private MyIUpdateHandler mIUpdateHandler;
 
@@ -99,7 +104,27 @@ public class MainActivity extends SimpleBaseGameActivity {
 				ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(
 						CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		engineOptions.getTouchOptions().setNeedsMultiTouch(true);
+		engineOptions.getAudioOptions().setNeedsMusic(true);
 		return engineOptions;
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		try {
+			MainActivity.this.mMusic.pause();
+		} catch (Exception e) {
+
+		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		try {
+			MainActivity.this.mMusic.play();
+		} catch (Exception e) {
+		}
 	}
 
 	@Override
@@ -191,10 +216,21 @@ public class MainActivity extends SimpleBaseGameActivity {
 				droidFontTexture, this.getAssets(), "Droid.ttf", 48, true,
 				Color.WHITE);
 		this.mFont.load();
+		
+		MusicFactory.setAssetBasePath("mfx/");
+		try {
+			this.mMusic = MusicFactory.createMusicFromAsset(
+					this.mEngine.getMusicManager(), this, "background.mp3");
+			this.mMusic.setLooping(true);
+		} catch (final IOException e) {
+			Debug.e(e);
+		}
 	}
 
 	@Override
 	protected Scene onCreateScene() {
+		
+		MainActivity.this.mMusic.play();
 
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
