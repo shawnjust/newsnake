@@ -185,7 +185,7 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 						 float Y=backgroundSprites[background_now].getY();
 						 backgroundSprites[background_now].registerEntityModifier(new SequenceEntityModifier(
 									new ParallelEntityModifier(
-									new MoveModifier(0.5f, X, X-800,
+									new MoveModifier(0.5f, X, 0,
 											Y, Y))
 								 ));
 					 }
@@ -196,7 +196,7 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 						 float Y=backgroundSprites[background_now].getY();
 						 backgroundSprites[background_now].registerEntityModifier(new SequenceEntityModifier(
 									new ParallelEntityModifier(
-									new MoveModifier(0.5f, X, X-800,
+									new MoveModifier(0.5f, X, 0,
 											Y, Y))
 								 ));
 					}
@@ -206,7 +206,7 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 						float Y=backgroundSprites[background_now].getY();
 						backgroundSprites[background_now].registerEntityModifier(new SequenceEntityModifier(
 									new ParallelEntityModifier(
-									new MoveModifier(0.5f, X, X-800,
+									new MoveModifier(0.5f, X, 0,
 											Y, Y))
 								 ));
 					}
@@ -223,7 +223,7 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 						 float Y=backgroundSprites[background_now].getY();
 						 backgroundSprites[background_now].registerEntityModifier(new SequenceEntityModifier(
 									new ParallelEntityModifier(
-									new MoveModifier(0.5f, X, X+800,
+									new MoveModifier(0.5f, X, 800,
 											Y, Y))
 								 ));
 						background_now++;
@@ -234,7 +234,7 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 						 float Y=backgroundSprites[background_now].getY();
 						 backgroundSprites[background_now].registerEntityModifier(new SequenceEntityModifier(
 									new ParallelEntityModifier(
-									new MoveModifier(0.5f, X, X+800,
+									new MoveModifier(0.5f, X, 800,
 											Y, Y))
 								 ));
 						background_now++;
@@ -245,7 +245,7 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 						 float Y=backgroundSprites[background_now].getY();
 						 backgroundSprites[background_now].registerEntityModifier(new SequenceEntityModifier(
 									new ParallelEntityModifier(
-									new MoveModifier(0.5f, X, X+800,
+									new MoveModifier(0.5f, X, 800,
 											Y, Y))
 								 ));
 						background_now++;
