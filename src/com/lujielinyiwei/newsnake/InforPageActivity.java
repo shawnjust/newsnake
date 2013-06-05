@@ -25,6 +25,7 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 	private TextureRegion infor3;
 	private TextureRegion infor4;
 	private TextureRegion infor5;
+	private TextureRegion infor6;
 
 	private BitmapTextureAtlas mTextureAtlas;
 	private BitmapTextureAtlas mButtonAtlas;
@@ -63,7 +64,7 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 		infor3 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mTextureAtlas, this, "image/infor3.png",0,481);
 		infor4 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mTextureAtlas, this, "image/infor4.png",801,481);
 		infor5 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mTextureAtlas, this, "image/infor5.png",0,962);
-		
+		infor6 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mTextureAtlas, this, "image/infor6.png",801,962);
 		
 		
 		mButton1 = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(
@@ -101,8 +102,11 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 		final SpriteBackground Background5 = new SpriteBackground(
 				new Sprite(0, 0, infor5,
 						this.getVertexBufferObjectManager()));
+		final SpriteBackground Background6 = new SpriteBackground(
+				new Sprite(0, 0, infor6,
+						this.getVertexBufferObjectManager()));
 		
-		final SpriteBackground[] backgrounds={Background1,Background2,Background5,Background3,Background4};
+		final SpriteBackground[] backgrounds={Background1,Background2,Background5,Background3,Background4,Background6};
 		scene.setBackground(backgrounds[background_now]);
 
 
@@ -138,7 +142,7 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 						 background_now--;
 						 scene.setBackground(backgrounds[background_now]);
 					 }
-					 else if(background_now==4){
+					 else if(background_now==5){
 						 BackSprite3.setEnabled(true);
 						 background_now--;
 						 scene.setBackground(backgrounds[background_now]);
@@ -153,7 +157,7 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 		BackSprite3.setOnClickListener(new OnClickListener() {
 				public void onClick(ButtonSprite arg0, float arg1, float arg2) {
 				// // TODO Auto-generated method stub
-					if(background_now==3)
+					if(background_now==4)
 					{
 						BackSprite3.setEnabled(false);
 						background_now++;
