@@ -9,6 +9,8 @@ import java.util.Iterator;
 
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
+import org.andengine.audio.sound.Sound;
+import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
@@ -89,8 +91,10 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 	private CameraScene mEndScene;
 	private CameraScene mPauseScene;
-	
+
 	private Music mMusic;
+	private Sound mButtonSound;
+	private Sound mEatSound;
 
 	private MyIUpdateHandler mIUpdateHandler;
 
@@ -105,9 +109,10 @@ public class MainActivity extends SimpleBaseGameActivity {
 						CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		engineOptions.getTouchOptions().setNeedsMultiTouch(true);
 		engineOptions.getAudioOptions().setNeedsMusic(true);
+		engineOptions.getAudioOptions().setNeedsSound(true);
 		return engineOptions;
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -122,6 +127,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 	public void onResume() {
 		super.onResume();
 		try {
+			MainActivity.this.mMusic.seekTo(0);
 			MainActivity.this.mMusic.play();
 		} catch (Exception e) {
 		}
@@ -216,12 +222,18 @@ public class MainActivity extends SimpleBaseGameActivity {
 				droidFontTexture, this.getAssets(), "Droid.ttf", 48, true,
 				Color.WHITE);
 		this.mFont.load();
-		
+
 		MusicFactory.setAssetBasePath("mfx/");
+		SoundFactory.setAssetBasePath("mfx/");
 		try {
 			this.mMusic = MusicFactory.createMusicFromAsset(
 					this.mEngine.getMusicManager(), this, "background.mp3");
 			this.mMusic.setLooping(true);
+			this.mButtonSound = SoundFactory.createSoundFromAsset(
+					this.mEngine.getSoundManager(), this, "button2.wav");
+			this.mEatSound = SoundFactory.createSoundFromAsset(
+					this.mEngine.getSoundManager(), this, "eat.wav");
+
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
@@ -229,7 +241,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 	@Override
 	protected Scene onCreateScene() {
-		
+
 		MainActivity.this.mMusic.play();
 
 		this.mEngine.registerUpdateHandler(new FPSLogger());
@@ -414,6 +426,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 				float headPosY = head.getY() + head.getHeight() / 2;
 				if ((foodPosX - headPosX) * (foodPosX - headPosX)
 						+ (foodPosY - headPosY) * (foodPosY - headPosY) < 40 * 40) {
+					MainActivity.this.mEatSound.play();
+
 					Sprite body = new Sprite(CAMERA_WIDTH + 100,
 							CAMERA_HEIGHT + 100,
 							MainActivity.this.mBodyTextureRegion,
@@ -638,6 +652,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 					@Override
 					public void onClick(MyButtonSprite pButtonSprite,
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						MainActivity.this.mButtonSound.play();
+
 						MainActivity.this.mEngine.setScene(MainActivity.this
 								.onCreateScene());
 					}
@@ -648,6 +664,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 			@Override
 			public void onClick(MyButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				MainActivity.this.mButtonSound.play();
+
 				MainActivity.this.finish();
 			}
 		});
@@ -657,7 +675,9 @@ public class MainActivity extends SimpleBaseGameActivity {
 			@Override
 			public void onClick(MyButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				Intent intent=new Intent();
+				MainActivity.this.mButtonSound.play();
+
+				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, InforPageActivity.class);
 				startActivity(intent);
 			}
@@ -669,6 +689,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 					@Override
 					public void onClick(MyButtonSprite pButtonSprite,
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						MainActivity.this.mButtonSound.play();
+
 						MainActivity.this.mEngine.setScene(MainActivity.this
 								.onCreateScene());
 					}
@@ -680,6 +702,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 					@Override
 					public void onClick(MyButtonSprite pButtonSprite,
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						MainActivity.this.mButtonSound.play();
+
 						MainActivity.this.finish();
 					}
 				});
@@ -690,6 +714,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 					@Override
 					public void onClick(MyButtonSprite pButtonSprite,
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						MainActivity.this.mButtonSound.play();
+
 						scene.clearChildScene();
 						physicsHandler.enable();
 						scene.setChildScene(analogOnScreenControl);
@@ -702,6 +728,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 			@Override
 			public void onClick(MyButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				MainActivity.this.mButtonSound.play();
 				if (physicsHandler.isable()) {
 					physicsHandler.disable();
 					scene.setChildScene(mPauseScene);

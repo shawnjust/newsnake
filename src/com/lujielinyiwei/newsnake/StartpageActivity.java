@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
+import org.andengine.audio.sound.Sound;
+import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
@@ -23,6 +25,7 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 import android.content.Intent;
+import android.util.Log;
 
 public class StartpageActivity extends SimpleBaseGameActivity {
 
@@ -38,6 +41,7 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 	private TiledTextureRegion mSnake;
 
 	private Music mMusic;
+	private Sound mExplosionSound;
 
 	private static final int CAMERA_WIDTH = 800;
 	private static final int CAMERA_HEIGHT = 480;
@@ -50,6 +54,7 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 				ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(
 						CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		engineOptions.getAudioOptions().setNeedsMusic(true);
+		engineOptions.getAudioOptions().setNeedsSound(true);
 		return engineOptions;
 	}
 
@@ -80,10 +85,14 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 		// TODO Auto-generated method stub
 
 		MusicFactory.setAssetBasePath("mfx/");
+		SoundFactory.setAssetBasePath("mfx/");
 		try {
 			this.mMusic = MusicFactory.createMusicFromAsset(
 					this.mEngine.getMusicManager(), this, "background.mp3");
 			this.mMusic.setLooping(true);
+			this.mExplosionSound = SoundFactory.createSoundFromAsset(
+					this.mEngine.getSoundManager(), this, "button1.wav");
+
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
@@ -104,8 +113,10 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 	public void onResume() {
 		super.onResume();
 		try {
+			StartpageActivity.this.mMusic.seekTo(0);
 			StartpageActivity.this.mMusic.play();
 		} catch (Exception e) {
+			Log.e("Hello", e.toString());
 		}
 	}
 
@@ -134,6 +145,7 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 
 			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
 				// TODO Auto-generated method stub
+				StartpageActivity.this.mExplosionSound.play();
 				Intent intent = new Intent();
 				intent.setClass(StartpageActivity.this, MainActivity.class);
 				startActivity(intent);
@@ -143,6 +155,8 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 
 			@Override
 			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
+				StartpageActivity.this.mExplosionSound.play();
+
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.setClass(StartpageActivity.this,
@@ -154,6 +168,8 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 
 			@Override
 			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
+				StartpageActivity.this.mExplosionSound.play();
+
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.setClass(StartpageActivity.this, InforPageActivity.class);
