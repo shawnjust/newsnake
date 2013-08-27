@@ -463,7 +463,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 								* (foodCenterX - headPosX)
 								+ (foodCenterY - headPosY)
 								* (foodCenterY - headPosY) < 40 * 40);
-					} while ((foodCenterX > 580 && foodCenterY > 220)
+					} while ((foodCenterX > 560 && foodCenterY > 220)
 							|| collision);
 					food.setPosition(foodCenterX, foodCenterY);
 				}
