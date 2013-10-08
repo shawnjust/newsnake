@@ -67,24 +67,24 @@ public class InforPageActivity extends SimpleBaseGameActivity {
 				TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		infor1 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
-				mTextureAtlas, this, "image/infor1.png", 0, 0);
+				mTextureAtlas, this, "image/infor1.jpg", 0, 0);
 		infor2 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
-				mTextureAtlas, this, "image/infor2.png", 801, 0);
+				mTextureAtlas, this, "image/infor2.jpg", 801, 0);
 		infor3 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
-				mTextureAtlas, this, "image/infor3.png", 0, 481);
+				mTextureAtlas, this, "image/infor3.jpg", 0, 481);
 		infor4 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
-				mTextureAtlas, this, "image/infor4.png", 801, 481);
+				mTextureAtlas, this, "image/infor4.jpg", 801, 481);
 		infor5 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
-				mTextureAtlas, this, "image/infor5.png", 0, 962);
+				mTextureAtlas, this, "image/infor5.jpg", 0, 962);
 		infor6 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
-				mTextureAtlas, this, "image/infor6.png", 801, 962);
+				mTextureAtlas, this, "image/infor6.jpg", 801, 962);
 
 		mButton1 = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(
 				mButtonAtlas, this, "image/back_start.png", 0, 0, 3, 1);
 		mButton2 = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(
-				mButtonAtlas, this, "image/up.png", 0, 70, 3, 1);
+				mButtonAtlas, this, "image/up.png", 0, 100, 3, 1);
 		mButton3 = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(
-				mButtonAtlas, this, "image/down.png", 0, 140, 3, 1);
+				mButtonAtlas, this, "image/down.png", 0, 170, 3, 1);
 
 		mTextureAtlas.load();
 		mButtonAtlas.load();

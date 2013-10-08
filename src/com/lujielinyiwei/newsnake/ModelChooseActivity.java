@@ -27,7 +27,7 @@ import org.andengine.util.debug.Debug;
 import android.content.Intent;
 import android.util.Log;
 
-public class StartpageActivity extends SimpleBaseGameActivity {
+public class ModelChooseActivity extends SimpleBaseGameActivity {
 
 	private BitmapTextureAtlas mTextureAtlas;
 	private BitmapTextureAtlas mStartAtlas;
@@ -35,7 +35,7 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 	private TextureRegion mGrassBackground;
 
 	private TiledTextureRegion mTop;
-//	private TiledTextureRegion mStartpage;
+	// private TiledTextureRegion mStartpage;
 	private TiledTextureRegion mStart;
 	private TiledTextureRegion mInformation;
 
@@ -100,7 +100,7 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 	public void onPause() {
 		super.onPause();
 		try {
-			StartpageActivity.this.mMusic.pause();
+			ModelChooseActivity.this.mMusic.pause();
 		} catch (Exception e) {
 
 		}
@@ -110,8 +110,8 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 	public void onResume() {
 		super.onResume();
 		try {
-			StartpageActivity.this.mMusic.seekTo(0);
-			StartpageActivity.this.mMusic.play();
+			ModelChooseActivity.this.mMusic.seekTo(0);
+			ModelChooseActivity.this.mMusic.play();
 		} catch (Exception e) {
 			Log.e("Hello", e.toString());
 		}
@@ -119,7 +119,7 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 
 	@Override
 	protected Scene onCreateScene() {
-		StartpageActivity.this.mMusic.play();
+		ModelChooseActivity.this.mMusic.play();
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 		final Scene scene = new Scene();
 		final SpriteBackground mainSceneBackground = new SpriteBackground(
@@ -132,17 +132,16 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 				getVertexBufferObjectManager());
 		ButtonSprite TopSprite = new ButtonSprite(0, 360, mTop,
 				getVertexBufferObjectManager());
-		ButtonSprite InformationSprite = new ButtonSprite(0, 260,
-				mInformation, getVertexBufferObjectManager());
+		ButtonSprite InformationSprite = new ButtonSprite(0, 260, mInformation,
+				getVertexBufferObjectManager());
 
 		StartSprite.setOnClickListener(new OnClickListener() {
 
 			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
 				// TODO Auto-generated method stub
-				StartpageActivity.this.mExplosionSound.play();
+				ModelChooseActivity.this.mExplosionSound.play();
 				Intent intent = new Intent();
-//				intent.setClass(StartpageActivity.this, ModelChooseActivity.class);
-				intent.setClass(StartpageActivity.this, MainActivity.class);
+				intent.setClass(ModelChooseActivity.this, MainActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -150,11 +149,11 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 
 			@Override
 			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
-				StartpageActivity.this.mExplosionSound.play();
+				ModelChooseActivity.this.mExplosionSound.play();
 
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.setClass(StartpageActivity.this,
+				intent.setClass(ModelChooseActivity.this,
 						InformationPageActivity.class);
 				startActivity(intent);
 			}
@@ -163,11 +162,12 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 
 			@Override
 			public void onClick(ButtonSprite arg0, float arg1, float arg2) {
-				StartpageActivity.this.mExplosionSound.play();
+				ModelChooseActivity.this.mExplosionSound.play();
 
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.setClass(StartpageActivity.this, InforPageActivity.class);
+				intent.setClass(ModelChooseActivity.this,
+						SensorModelActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -175,7 +175,6 @@ public class StartpageActivity extends SimpleBaseGameActivity {
 		scene.registerTouchArea(TopSprite);
 		scene.registerTouchArea(InformationSprite);
 
-		
 		scene.attachChild(StartSprite);
 		scene.attachChild(InformationSprite);
 		scene.attachChild(TopSprite);

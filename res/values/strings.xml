@@ -7,5 +7,7 @@
     <string name="title_activity_startpage">StartpageActivity</string>
     <string name="title_activity_information_page">InformationPageActivity</string>
     <string name="title_activity_infor_page">InforPageActivity</string>
+    <string name="title_activity_model_choose">ModelChooseActivity</string>
+    <string name="title_activity_sensor_model">SensorModelActivity</string>
 
 </resources>
