@@ -154,7 +154,7 @@ public class ModelChooseActivity extends SimpleBaseGameActivity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.setClass(ModelChooseActivity.this,
-						InformationPageActivity.class);
+						SensorModelActivity.class);
 				startActivity(intent);
 			}
 		});

@@ -35,7 +35,6 @@ import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
@@ -50,12 +49,12 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import com.lujielinyiwei.entity.sprite.MyButtonSprite;
+import com.lujielinyiwei.newsnake.sensor.GravitySensorListener;
 
-public class SensorModelActivity extends SimpleBaseGameActivity implements
-		SensorEventListener {
+public class SensorModelActivity extends SimpleBaseGameActivity {
 
 	SensorManager mSensorManager;
-	Sensor mAccelerometer;
+	Sensor mGravity;
 
 	public static final int CAMERA_WIDTH = 800;
 	public static final int CAMERA_HEIGHT = 480;
@@ -74,8 +73,8 @@ public class SensorModelActivity extends SimpleBaseGameActivity implements
 	private TextureRegion mPauseBackground;
 
 	private BitmapTextureAtlas mOnScreenControlTexture;
-	private ITextureRegion mOnScreenControlBaseTextureRegion;
-	private ITextureRegion mOnScreenControlKnobTextureRegion;
+	// private ITextureRegion mOnScreenControlBaseTextureRegion;
+	// private ITextureRegion mOnScreenControlKnobTextureRegion;
 
 	private BitmapTextureAtlas mFoodBitmapTextureAtlas;
 	private TiledTextureRegion mFood1TextureRegion;
@@ -105,12 +104,13 @@ public class SensorModelActivity extends SimpleBaseGameActivity implements
 
 	private Font mFont;
 
+	private GravitySensorListener gravitySensorListener = new GravitySensorListener();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		mAccelerometer = mSensorManager
-				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class SensorModelActivity extends SimpleBaseGameActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		mSensorManager.unregisterListener(this);
+		mSensorManager.unregisterListener(gravitySensorListener);
 		try {
 			SensorModelActivity.this.mMusic.pause();
 		} catch (Exception e) {
@@ -140,7 +140,7 @@ public class SensorModelActivity extends SimpleBaseGameActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSensorManager.registerListener(this, mAccelerometer,
+		mSensorManager.registerListener(gravitySensorListener, mGravity,
 				SensorManager.SENSOR_DELAY_NORMAL);
 		try {
 			SensorModelActivity.this.mMusic.seekTo(0);
@@ -182,12 +182,14 @@ public class SensorModelActivity extends SimpleBaseGameActivity implements
 
 		this.mOnScreenControlTexture = new BitmapTextureAtlas(
 				this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory
-				.createFromAsset(this.mOnScreenControlTexture, this,
-						"onscreen_control_base_new.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory
-				.createFromAsset(this.mOnScreenControlTexture, this,
-						"onscreen_control_knob_new.png", 128, 0);
+		// this.mOnScreenControlBaseTextureRegion =
+		// BitmapTextureAtlasTextureRegionFactory
+		// .createFromAsset(this.mOnScreenControlTexture, this,
+		// "onscreen_control_base_new.png", 0, 0);
+		// this.mOnScreenControlKnobTextureRegion =
+		// BitmapTextureAtlasTextureRegionFactory
+		// .createFromAsset(this.mOnScreenControlTexture, this,
+		// "onscreen_control_knob_new.png", 128, 0);
 		this.mOnScreenControlTexture.load();
 
 		this.mFoodBitmapTextureAtlas = new BitmapTextureAtlas(
@@ -619,6 +621,30 @@ public class SensorModelActivity extends SimpleBaseGameActivity implements
 		scene.registerUpdateHandler(mIUpdateHandler);
 		scene.sortChildren();
 
+		gravitySensorListener.setListener(new SensorEventListener() {
+
+			@Override
+			public void onSensorChanged(SensorEvent event) {
+				// TODO Auto-generated method stub
+
+				if (event.values[0] == 0 && event.values[1] == 0) {
+					// physicsHandler.setRadius(0);
+				} else {
+					physicsHandler.setSpeed(200);
+					physicsHandler.setRadius(60);
+					physicsHandler
+							.setRotation(event.values[1], event.values[0]);
+				}
+
+			}
+
+			@Override
+			public void onAccuracyChanged(Sensor sensor, int accuracy) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 		// final AnalogOnScreenControl analogOnScreenControl = new
 		// AnalogOnScreenControl(
 		// CAMERA_WIDTH
@@ -765,17 +791,5 @@ public class SensorModelActivity extends SimpleBaseGameActivity implements
 		public void enable();
 
 		public void disable();
-	}
-
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSensorChanged(SensorEvent event) {
-		// TODO Auto-generated method stub
-
 	}
 }
