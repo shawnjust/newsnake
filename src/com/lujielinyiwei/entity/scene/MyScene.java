@@ -1,17 +1,20 @@
 package com.lujielinyiwei.entity.scene;
 
 import org.andengine.entity.scene.Scene;
-import org.andengine.ui.activity.SimpleBaseGameActivity;
+
+import android.view.KeyEvent;
+
+import com.lujielinyiwei.newsnake.StartpageActivity;
 
 public abstract class MyScene extends Scene {
 
-	protected final SimpleBaseGameActivity mContext;
+	protected final StartpageActivity mContext;
 
-	public MyScene(SimpleBaseGameActivity context) {
+	public MyScene(StartpageActivity context) {
 		this.mContext = context;
 	}
 
-	public SimpleBaseGameActivity getContext() {
+	public StartpageActivity getContext() {
 		return this.mContext;
 	}
 
@@ -29,4 +32,8 @@ public abstract class MyScene extends Scene {
 	public abstract void onBack();
 
 	public abstract void onCreateScene();
+
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		return false;
+	}
 }

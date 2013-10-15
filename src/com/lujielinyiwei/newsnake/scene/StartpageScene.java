@@ -21,7 +21,6 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
-import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.ease.EaseBackIn;
@@ -35,12 +34,12 @@ import android.util.Log;
 import com.lujielinyiwei.entity.scene.MyScene;
 import com.lujielinyiwei.newsnake.InforPageActivity;
 import com.lujielinyiwei.newsnake.InformationPageActivity;
-import com.lujielinyiwei.newsnake.MainActivity;
 import com.lujielinyiwei.newsnake.SensorModelActivity;
+import com.lujielinyiwei.newsnake.StartpageActivity;
 
 public class StartpageScene extends MyScene {
 
-	public StartpageScene(SimpleBaseGameActivity context) {
+	public StartpageScene(StartpageActivity context) {
 		super(context);
 	}
 
@@ -157,7 +156,7 @@ public class StartpageScene extends MyScene {
 			} catch (Exception e) {
 				Log.e("Hello", e.toString());
 			}
-//			showBeginButton();
+			// showBeginButton();
 		}
 	}
 
@@ -286,10 +285,11 @@ public class StartpageScene extends MyScene {
 					@Override
 					public void onModifierFinished(IModifier<IEntity> arg0,
 							IEntity arg1) {
-						Intent intent = new Intent();
-						intent.setClass(StartpageScene.this.getContext(),
-								MainActivity.class);
-						getContext().startActivity(intent);
+						// Intent intent = new Intent();
+						// intent.setClass(StartpageScene.this.getContext(),
+						// MainActivity.class);
+						// getContext().startActivity(intent);
+						StartpageScene.this.getContext().startScene(BaseGameScene.class);
 					}
 
 					@Override
@@ -427,7 +427,7 @@ public class StartpageScene extends MyScene {
 					new DelayModifier(0.4f), new MoveModifier(0.5f, 0, -300, y,
 							y, EaseBackIn.getInstance())));
 		}
-		
+
 		float x = snakeSprite.getX();
 		snakeSprite.registerEntityModifier(new MoveModifier(0.5f, x, x, 15,
 				-400, EaseBackIn.getInstance()));
