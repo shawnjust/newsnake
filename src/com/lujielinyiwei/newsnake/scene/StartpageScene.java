@@ -289,7 +289,7 @@ public class StartpageScene extends MyScene {
 						// intent.setClass(StartpageScene.this.getContext(),
 						// MainActivity.class);
 						// getContext().startActivity(intent);
-						StartpageScene.this.getContext().startScene(BaseGameScene.class);
+						StartpageScene.this.getContext().startScene(RockerGameScene.class);
 					}
 
 					@Override
