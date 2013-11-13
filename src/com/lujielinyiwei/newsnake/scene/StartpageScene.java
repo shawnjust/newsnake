@@ -239,10 +239,11 @@ public class StartpageScene extends MyScene {
 					public void onModifierFinished(
 							final IModifier<IEntity> pEntityModifier,
 							final IEntity pEntity) {
-						Intent intent = new Intent();
+						/*Intent intent = new Intent();
 						intent.setClass(StartpageScene.this.getContext(),
 								InformationPageActivity.class);
-						StartpageScene.this.getContext().startActivity(intent);
+						StartpageScene.this.getContext().startActivity(intent);*/
+						StartpageScene.this.getContext().startScene(InformationPageScene.class);
 
 					}
 				});
