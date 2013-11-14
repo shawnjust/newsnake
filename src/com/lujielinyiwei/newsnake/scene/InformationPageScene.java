@@ -141,7 +141,6 @@ public class InformationPageScene extends MyScene{
 	public void onCreateScene() {
 		this.mMusic.play();
 		
-	//	this.getContext().getEngine().registerUpdateHandler(new FPSLogger());
 		
 		mainSceneBackground = new SpriteBackground(
 				new Sprite(0, 0, mBackground,
