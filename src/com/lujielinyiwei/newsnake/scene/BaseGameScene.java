@@ -12,9 +12,6 @@ import org.andengine.audio.music.MusicFactory;
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.camera.Camera;
-import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
-import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
-import org.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.modifier.DelayModifier;
@@ -40,7 +37,6 @@ import org.andengine.util.debug.Debug;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.opengl.GLES20;
 
 import com.lujielinyiwei.entity.scene.MyScene;
 import com.lujielinyiwei.entity.sprite.MyButtonSprite;
@@ -48,13 +44,17 @@ import com.lujielinyiwei.newsnake.MyHeadPhysicsHandler;
 import com.lujielinyiwei.newsnake.StartpageActivity;
 import com.lujielinyiwei.newsnake.staticdata.StaticData;
 
-public class BaseGameScene extends MyScene {
+public abstract class BaseGameScene extends MyScene {
 
 	public BaseGameScene(StartpageActivity context) {
 		super(context);
 	}
 
 	private Camera camera;
+
+	public Camera getCamera() {
+		return camera;
+	}
 
 	private BitmapTextureAtlas mHeadBitmapTextureAtlas;
 	private TiledTextureRegion mHeadTextureRegion;
@@ -528,49 +528,7 @@ public class BaseGameScene extends MyScene {
 		BaseGameScene.this.registerUpdateHandler(mIUpdateHandler);
 		BaseGameScene.this.sortChildren();
 
-		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(
-				StaticData.CAMERA_WIDTH
-						- this.mOnScreenControlBaseTextureRegion.getWidth()
-						- 70, StaticData.CAMERA_HEIGHT
-						- this.mOnScreenControlBaseTextureRegion.getHeight()
-						- 40, this.camera,
-				this.mOnScreenControlBaseTextureRegion,
-				this.mOnScreenControlKnobTextureRegion, 0.1f, 200, this
-						.getContext().getVertexBufferObjectManager(),
-				new IAnalogOnScreenControlListener() {
-
-					@Override
-					public void onControlChange(
-							final BaseOnScreenControl pBaseOnScreenControl,
-							final float pValueX, final float pValueY) {
-
-						if (pValueX == 0 && pValueY == 0) {
-							// physicsHandler.setRadius(0);
-						} else {
-							physicsHandler.setSpeed(200);
-							physicsHandler.setRadius(60);
-							physicsHandler.setRotation(pValueX, pValueY);
-						}
-					}
-
-					@Override
-					public void onControlClick(
-							final AnalogOnScreenControl pAnalogOnScreenControl) {
-						// head.registerEntityModifier(new
-						// SequenceEntityModifier(
-						// new ScaleModifier(0.25f, 1, 1.5f),
-						// new ScaleModifier(0.25f, 1.5f, 1)));
-					}
-				});
-		analogOnScreenControl.getControlBase().setBlendFunction(
-				GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		analogOnScreenControl.getControlBase().setAlpha(0.5f);
-		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
-		analogOnScreenControl.getControlBase().setScale(1.25f);
-		analogOnScreenControl.getControlKnob().setScale(1.25f);
-		analogOnScreenControl.refreshControlKnobPosition();
-
-		BaseGameScene.this.setChildScene(analogOnScreenControl);
+		initControler();
 
 		endContinueButton
 				.setOnClickListener(new MyButtonSprite.OnClickListener() {
@@ -655,11 +613,13 @@ public class BaseGameScene extends MyScene {
 			public void onClick(MyButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				BaseGameScene.this.mButtonSound.play();
-				// if (physicsHandler.isable()) {
-				// physicsHandler.disable();
-				// scene.setChildScene(mPauseScene);
-				// pauseButton.setAlpha(0f);
-				// }
+				
+				continueGame();
+				if (physicsHandler.isable()) {
+					physicsHandler.disable();
+					BaseGameScene.this.setChildScene(mPauseScene);
+					pauseButton.setAlpha(0f);
+				}
 			}
 		});
 	}
@@ -793,6 +753,13 @@ public class BaseGameScene extends MyScene {
 						new AlphaModifier(0.5f, 0, 1), new MoveModifier(0.5f,
 								X, X, Y + 20, Y))));
 		BaseGameScene.this.setChildScene(mEndScene);
+	}
+	
+	
+	protected abstract void initControler();
+	
+	protected void continueGame() {
+		physicsHandler.enable();
 	}
 
 }
