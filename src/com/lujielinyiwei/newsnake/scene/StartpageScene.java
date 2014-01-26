@@ -170,7 +170,7 @@ public class StartpageScene extends MyScene {
 		this.setBackground(mainSceneBackground);
 		this.setTouchAreaBindingOnActionDownEnabled(true);
 
-		// ¿ªÊ¼ÓÎÏ·¡¢ÓÎÏ·ËµÃ÷¡¢×î¸ß·Ö°´Å¥
+		// ï¿½ï¿½Ê¼ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½Ï·Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß·Ö°ï¿½Å¥
 		startSprite = new ButtonSprite(-300, 160, mStart, getContext()
 				.getVertexBufferObjectManager());
 		topSprite = new ButtonSprite(-300, 360, mTop, getContext()
@@ -239,10 +239,11 @@ public class StartpageScene extends MyScene {
 					public void onModifierFinished(
 							final IModifier<IEntity> pEntityModifier,
 							final IEntity pEntity) {
-						Intent intent = new Intent();
+						/*Intent intent = new Intent();
 						intent.setClass(StartpageScene.this.getContext(),
 								InformationPageActivity.class);
-						StartpageScene.this.getContext().startActivity(intent);
+						StartpageScene.this.getContext().startActivity(intent);*/
+						StartpageScene.this.getContext().startScene(InformationPageScene.class);
 
 					}
 				});
